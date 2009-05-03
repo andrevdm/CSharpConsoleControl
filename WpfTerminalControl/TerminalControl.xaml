@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="WpfTerminalControl.TerminalControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:WpfTerminalControl">
+    <DockPanel LastChildFill="True">
+
+        <ScrollBar 
+                Name="m_scrollbar"
+                DockPanel.Dock="Right"
+                ValueChanged="m_scrollbar_ValueChanged"
+                Orientation="Vertical" 
+                Grid.Column="1"/>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer 
+                Grid.Column="0" 
+                HorizontalScrollBarVisibility="Visible" 
+                VerticalScrollBarVisibility="Disabled">
+
+                <local:CustomCanvas
+                    x:Name="m_terminalCanvas"
+                    OnCustomRender="OnHexCanvasRender"
+                    OnCustomRenderSizeChanged="OnHexCanvasRenderSizeChanged"
+                    MouseLeftButtonDown="OnHexMouseLeftButtonDown"
+                    />
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+</UserControl>

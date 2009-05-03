@@ -1,0 +1,9 @@
+﻿<Window x:Class="WpfTestApp.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:WpfTerminalControl="clr-namespace:WpfTerminalControl;assembly=WpfTerminalControl"
+    Title="Window1" Height="600" Width="800">
+    <DockPanel LastChildFill="True">
+        <WpfTerminalControl:TerminalControl x:Name="m_terminal"/>
+    </DockPanel>
+</Window>
