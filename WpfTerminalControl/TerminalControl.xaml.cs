@@ -91,12 +91,12 @@ namespace WpfTerminalControl
 
 			double top = 0;
 
-			foreach( Paragraph para in m_terminal.GetParagraphs() )
+			foreach( Line line in m_terminal.GetLines() )
 			{
 				double left = 0;
 				double maxHeight = 0;
 
-				foreach( Span span in para.Spans )
+				foreach( Span span in line.Spans )
 				{
 					var fgBrush = span.ForegroundColour != null ? new SolidColorBrush( ColorFromSpanColour( span.ForegroundColour ) ) : Foreground;
 

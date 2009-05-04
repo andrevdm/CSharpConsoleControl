@@ -56,9 +56,9 @@ namespace TerminalCore
 			DefaultSpanFont = defaultFont;
 		}
 
-		public IEnumerable<Paragraph> GetParagraphs()
+		public IEnumerable<Line> GetLines()
 		{
-			var p = new Paragraph();
+			var p = new Line();
 			p.Spans.Add( new Span( Prompt ) );
 
 			p.Spans.Add( new Span(
@@ -69,7 +69,7 @@ namespace TerminalCore
 
 			yield return p;
 
-			p = new Paragraph();
+			p = new Line();
 			p.Spans.Add( new Span( Prompt ) );
 
 			p.Spans.Add( new Span(

@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using TerminalCore;
@@ -16,7 +11,7 @@ namespace WinFormsTerminalControl
 {
 	public partial class TerminalControl : UserControl, ITerminalView
 	{
-		protected TerminalController m_terminal;
+		protected readonly TerminalController m_terminal;
 
 		public TerminalControl()
 		{
@@ -29,26 +24,17 @@ namespace WinFormsTerminalControl
 			m_terminal = new TerminalController( this, "tst> " );
 			Font = FontFromSpanFont( m_terminal.DefaultSpanFont );
 		}
-		/*private void MeasureFont()
-		{
-			using( Graphics g = CreateGraphics() )
-			{
-				SizeF size = g.MeasureString( "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", Font );
-				m_charWidth = size.Width / 400F;
-				m_charHeight = size.Height;
-			}
-		}*/
-
+		
 		private void TerminalControl_Paint( object sender, PaintEventArgs e )
 		{
 			float top = 0;
 
-			foreach( var para in m_terminal.GetParagraphs() )
+			foreach( var line in m_terminal.GetLines() )
 			{
 				float left = 0;
 				float maxHeight = 0;
 
-				foreach( Span span in para.Spans )
+				foreach( Span span in line.Spans )
 				{
 					Font font = span.Font != null ? FontFromSpanFont( span.Font ) : Font;
 
@@ -87,7 +73,6 @@ namespace WinFormsTerminalControl
 
 		private float SizeFromSpanFontSize( float size )
 		{
-			//Windows Forms font size = WPF font size * 72.0 / 96.0.
 			return (size / 96.0F) * 72.0F;
 		}
 
