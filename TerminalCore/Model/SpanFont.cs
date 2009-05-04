@@ -20,6 +20,12 @@ namespace TerminalCore.Model
 
 		public string TypeFace { get; private set; }
 		public SpanFontStyle Style { get; private set; }
+
+		/// <summary>
+		/// Expressed as one ninety-sixth of an inch.
+		/// For WPF use as is.
+		/// For WinForms use (Size / 96.0F) * 72.0F;
+		/// </summary>
 		public float Size { get; private set; }
 	}
 }

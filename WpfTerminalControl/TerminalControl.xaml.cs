@@ -1,23 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 using TerminalCore;
 using TerminalCore.Model;
-
-using Brushes = System.Windows.Media.Brushes;
-using Point = System.Windows.Point;
 
 namespace WpfTerminalControl
 {
@@ -28,27 +17,21 @@ namespace WpfTerminalControl
 	{
 		protected readonly Typeface m_typeface;
 		protected readonly CultureInfo m_culture;
-		protected readonly double m_charWidth;
-		protected readonly double m_charHeight;
 		protected readonly TerminalController m_terminal;
 
 		public TerminalControl()
 		{
 			InitializeComponent();
 
-			Background = Brushes.Black;
-			Foreground = Brushes.WhiteSmoke;
-
 			IsTabStop = true;
 
-			m_culture = CultureInfo.GetCultureInfo( "en-us" );
-			m_typeface = new Typeface( "Courier New" );
-
-			FormattedText measure = new FormattedText( "0", m_culture, FlowDirection.LeftToRight, m_typeface, 12, Brushes.Black );
-			m_charWidth = measure.WidthIncludingTrailingWhitespace;
-			m_charHeight = measure.Height;
-
 			m_terminal = new TerminalController( this, "tst> " );
+
+			m_culture = CultureInfo.GetCultureInfo( "en-us" );
+			m_typeface = new Typeface( m_terminal.DefaultSpanFont.TypeFace );
+
+			Background = new SolidColorBrush( ColorFromSpanColour( m_terminal.DefaultBackgroundColour ) );
+			Foreground = new SolidColorBrush( ColorFromSpanColour( m_terminal.DefaultForegroundColour ) );
 		}
 
 		public SizeF MeasureText( string text, SpanFont font )
@@ -106,15 +89,71 @@ namespace WpfTerminalControl
 		{
 			ctx.DrawRectangle( Background, null, new Rect( 0, 0, m_terminalCanvas.ActualWidth, m_terminalCanvas.ActualHeight ) );
 
-			var formattedText = new FormattedText(
-									m_terminal.Prompt,
-									m_culture,
-									FlowDirection.LeftToRight,
-									m_typeface,
-									12,
-									Foreground );
+			double top = 0;
 
-			ctx.DrawText( formattedText, new Point( 0 * m_charWidth, 0 * m_charHeight ) );
+			foreach( Paragraph para in m_terminal.GetParagraphs() )
+			{
+				double left = 0;
+				double maxHeight = 0;
+
+				foreach( Span span in para.Spans )
+				{
+					var fgBrush = span.ForegroundColour != null ? new SolidColorBrush( ColorFromSpanColour( span.ForegroundColour ) ) : Foreground;
+
+					var font = span.Font ?? m_terminal.DefaultSpanFont;
+
+					FormattedText formattedText = new FormattedText(
+						span.Text,
+						m_culture,
+						FlowDirection.LeftToRight,
+						TypefaceFromSpanFont( font ),
+						font.Size,
+						fgBrush );
+
+
+					if( span.BackgroundColour != null )
+					{
+						var bgBrush = span.BackgroundColour != null ? new SolidColorBrush( ColorFromSpanColour( span.BackgroundColour ) ) : Background;
+						
+						ctx.DrawRectangle(
+							bgBrush,
+							null,
+							new Rect( left, top, formattedText.WidthIncludingTrailingWhitespace, formattedText.Height ) );
+					}
+
+					ctx.DrawText( formattedText, new Point( left, top ) );
+
+					left += formattedText.WidthIncludingTrailingWhitespace;
+					maxHeight = Math.Max( maxHeight, formattedText.Height );
+				}
+
+				top += maxHeight;
+			}
+		}
+
+		private Typeface TypefaceFromSpanFont( SpanFont spanFont )
+		{
+			return new Typeface(
+				new FontFamily( spanFont.TypeFace ),
+				FontStyleFromSpanFont( spanFont ),
+				FontWeightFromSpanFont( spanFont ),
+				FontStretches.Normal
+				);
+		}
+
+		private FontWeight FontWeightFromSpanFont( SpanFont spanFont )
+		{
+			return ((spanFont.Style & SpanFontStyle.Bold) != 0) ? FontWeights.Bold : FontWeights.Normal;
+		}
+
+		private FontStyle FontStyleFromSpanFont( SpanFont spanFont )
+		{
+			return ((spanFont.Style & SpanFontStyle.Italic) != 0) ? FontStyles.Italic : FontStyles.Normal;
+		}
+
+		private Color ColorFromSpanColour( Colour spanColour )
+		{
+			return Color.FromArgb( spanColour.Alpha, spanColour.Red, spanColour.Green, spanColour.Blue );
 		}
 	}
 }

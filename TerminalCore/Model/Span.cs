@@ -4,17 +4,22 @@ namespace TerminalCore.Model
 {
 	public class Span
 	{
+		public Span( string text )
+			: this( text, null, null, null )
+		{
+		}
+
+		public Span( string text, SpanFont font )
+			: this( text, font, null, null )
+		{
+		}
+
 		public Span( string text, SpanFont font, Colour foregroundColour, Colour backgroundColour )
 		{
 			#region param checks
 			if( text == null )
 			{
 				throw new ArgumentNullException( "text" );
-			}
-
-			if( font == null )
-			{
-				throw new ArgumentNullException( "font" );
 			}
 			#endregion
 

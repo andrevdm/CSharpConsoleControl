@@ -7,8 +7,7 @@ namespace TerminalCore.Model
 	{
 		Normal,
 		Bold,
-		Italics,
-		Underline,
-		Strikeout
+		Italic,
+		Underline
 	}
 }
