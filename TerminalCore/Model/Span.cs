@@ -14,6 +14,11 @@ namespace TerminalCore.Model
 		{
 		}
 
+		public Span( string text, SpanFont font, Colour foregroundColour )
+			: this( text, font, foregroundColour, null )
+		{
+		}
+
 		public Span( string text, SpanFont font, Colour foregroundColour, Colour backgroundColour )
 		{
 			#region param checks

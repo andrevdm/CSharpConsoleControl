@@ -9,11 +9,11 @@ namespace TerminalCore.Model
 			Spans = new List<Span>();
 		}
 
-		public bool HasText()
+		public bool HasUserText()
 		{
-			foreach( var span in Spans )
+			for( int i = 1; i < Spans.Count; ++ i )
 			{
-				if( !string.IsNullOrEmpty( span.Text ) )
+				if( !string.IsNullOrEmpty( Spans[ i ].Text ) )
 				{
 					return true;
 				}
@@ -22,11 +22,18 @@ namespace TerminalCore.Model
 			return false;
 		}
 
-		public Span LastSpan
+		public Span LastUserSpan
 		{
 			get 
 			{
+				//There must be a prompt
 				if( Spans.Count == 0 )
+				{
+					Spans.Add( new Span( ">" ) );
+				}
+
+				//Add the user span if there is not one
+				if( Spans.Count == 1 )
 				{
 					Spans.Add( new Span( "" ) );
 				}

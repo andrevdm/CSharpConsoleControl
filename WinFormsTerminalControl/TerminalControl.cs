@@ -22,7 +22,8 @@ namespace WinFormsTerminalControl
 			SetStyle( ControlStyles.UserPaint, true );
 			SetStyle( ControlStyles.AllPaintingInWmPaint, true );
 
-			m_terminal = new TerminalController( this, "tst> " );
+			var prompt = new Span( "test> ", new SpanFont( "Courier New", SpanFontStyle.Normal, 12 ), Colours.Blue );
+			m_terminal = new TerminalController( this, prompt );
 			Font = FontFromSpanFont( m_terminal.DefaultSpanFont );
 		}
 

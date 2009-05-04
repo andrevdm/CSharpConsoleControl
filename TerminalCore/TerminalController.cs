@@ -11,14 +11,14 @@ namespace TerminalCore
 		private readonly LinkedList<Line> m_lines = new LinkedList<Line>();
 		private Line m_currentLine = new Line();
 
-		public TerminalController( ITerminalView view, string prompt )
+		public TerminalController( ITerminalView view, Span prompt )
 			: this( view, prompt, Colours.White, Colours.Black, new SpanFont( "Courier New", SpanFontStyle.Normal, 12 ) )
 		{
 		}
 
 		public TerminalController(
 			ITerminalView view,
-			string prompt,
+			Span prompt,
 			Colour defaultForegroundColour,
 			Colour defaultBackgroundColour,
 			SpanFont defaultFont )
@@ -56,12 +56,14 @@ namespace TerminalCore
 			DefaultBackgroundColour = defaultBackgroundColour;
 			DefaultForegroundColour = defaultForegroundColour;
 			DefaultSpanFont = defaultFont;
+
+			m_currentLine.Spans.Add( Prompt );
 		}
 
 		public IEnumerable<Line> GetLines()
 		{
 			var p = new Line();
-			p.Spans.Add( new Span( Prompt ) );
+			p.Spans.Add( Prompt );
 
 			p.Spans.Add( new Span(
 								"abcdefg",
@@ -72,7 +74,7 @@ namespace TerminalCore
 			yield return p;
 
 			p = new Line();
-			p.Spans.Add( new Span( Prompt ) );
+			p.Spans.Add( Prompt );
 
 			p.Spans.Add( new Span(
 								"abcdefg",
@@ -115,21 +117,22 @@ namespace TerminalCore
 		{
 			if( char.IsLetterOrDigit( c ) || char.IsWhiteSpace( c ) )
 			{
-				m_currentLine.LastSpan.Text += c;
+				m_currentLine.LastUserSpan.Text += c;
 			}
 		}
 
 		private void ReturnPressed()
 		{
-			if( m_currentLine.HasText() )
+			if( m_currentLine.HasUserText() )
 			{
 				m_lines.AddFirst( m_currentLine );
 			}
 
 			m_currentLine = new Line();
+			m_currentLine.Spans.Add( Prompt );
 		}
 
-		public string Prompt { get; private set; }
+		private Span Prompt { get; set; }
 		public Colour DefaultForegroundColour { get; private set; }
 		public Colour DefaultBackgroundColour { get; private set; }
 		public SpanFont DefaultSpanFont { get; private set; }
