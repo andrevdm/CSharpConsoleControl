@@ -9,7 +9,7 @@ namespace TerminalCore
 	{
 		private readonly ITerminalView m_view;
 		private readonly LinkedList<Line> m_lines = new LinkedList<Line>();
-		private Line m_currentLine = new Line();
+		private Line m_currentLine;
 
 		public TerminalController( ITerminalView view, Span prompt )
 			: this( view, prompt, Colours.White, Colours.Black, new SpanFont( "Courier New", SpanFontStyle.Normal, 12 ) )
@@ -57,11 +57,13 @@ namespace TerminalCore
 			DefaultForegroundColour = defaultForegroundColour;
 			DefaultSpanFont = defaultFont;
 
-			m_currentLine.Spans.Add( Prompt );
+			ClearCurrentLine();
 		}
 
 		public IEnumerable<Line> GetLines()
 		{
+			//TODO remove
+			//------------------------------------
 			var p = new Line();
 			p.Spans.Add( Prompt );
 
@@ -90,6 +92,7 @@ namespace TerminalCore
 
 
 			yield return p;
+			//------------------------------------
 
 			foreach( var line in m_lines )
 			{
@@ -107,10 +110,25 @@ namespace TerminalCore
 					ReturnPressed();
 					break;
 
+				case (char)27:
+					EscapePressed();
+					break;
+
 				default:
 					AppendCharToCurrentSpan( c );
 					break;
 			}
+		}
+
+		private void EscapePressed()
+		{
+			ClearCurrentLine();
+		}
+
+		private void ClearCurrentLine()
+		{
+			m_currentLine = new Line();
+			m_currentLine.Spans.Add( Prompt );
 		}
 
 		private void AppendCharToCurrentSpan( char c )
@@ -128,8 +146,7 @@ namespace TerminalCore
 				m_lines.AddFirst( m_currentLine );
 			}
 
-			m_currentLine = new Line();
-			m_currentLine.Spans.Add( Prompt );
+			ClearCurrentLine();
 		}
 
 		private Span Prompt { get; set; }
