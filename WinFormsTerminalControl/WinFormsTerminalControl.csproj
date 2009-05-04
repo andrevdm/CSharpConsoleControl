@@ -62,9 +62,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TerminalControl.Core\TerminalControl.Core.csproj">
+    <ProjectReference Include="..\TerminalCore\TerminalCore.csproj">
       <Project>{48814A81-17B8-4AD6-8DE9-49B1E0E154E8}</Project>
-      <Name>TerminalControl.Core</Name>
+      <Name>TerminalCore</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,20 +13,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using TerminalControl.Core;
+using TerminalCore;
+using TerminalCore.Model;
+
+using Brushes = System.Windows.Media.Brushes;
+using Point = System.Windows.Point;
 
 namespace WpfTerminalControl
 {
 	/// <summary>
 	/// Interaction logic for TerminalControl.xaml
 	/// </summary>
-	public partial class TerminalControl : UserControl
+	public partial class TerminalControl : UserControl, ITerminalView
 	{
 		protected readonly Typeface m_typeface;
 		protected readonly CultureInfo m_culture;
 		protected readonly double m_charWidth;
 		protected readonly double m_charHeight;
-		protected readonly Terminal m_terminal;
+		protected readonly TerminalController m_terminal;
 
 		public TerminalControl()
 		{
@@ -40,11 +44,36 @@ namespace WpfTerminalControl
 			m_culture = CultureInfo.GetCultureInfo( "en-us" );
 			m_typeface = new Typeface( "Courier New" );
 
-			var measure = new FormattedText( "0", m_culture, FlowDirection.LeftToRight, m_typeface, 12, Brushes.Black );
+			FormattedText measure = new FormattedText( "0", m_culture, FlowDirection.LeftToRight, m_typeface, 12, Brushes.Black );
 			m_charWidth = measure.WidthIncludingTrailingWhitespace;
 			m_charHeight = measure.Height;
 
-			m_terminal = new Terminal( "tst> " );
+			m_terminal = new TerminalController( this, "tst> " );
+		}
+
+		public SizeF MeasureText( string text, SpanFont font )
+		{
+			/*Typeface t = new Typeface( 
+				new FontFamily( font.FontFamily.Name ), 
+				FontStyles.Normal, 
+				FontWeights.Bold, 
+				FontStretches.Normal );
+
+			//Windows Forms font size = WPF font size * 72.0 / 96.0.
+			float fontSize = font.Size / (72.0F / 96.0F);
+
+			FormattedText measure = new FormattedText( 
+				text, 
+				m_culture, 
+				FlowDirection.LeftToRight, 
+				m_typeface,
+				fontSize, 
+				Brushes.Black );
+
+			m_charWidth = measure.WidthIncludingTrailingWhitespace;
+			m_charHeight = measure.Height;*/
+
+			throw new NotImplementedException();
 		}
 
 		protected override void OnPreviewKeyDown( KeyEventArgs e )

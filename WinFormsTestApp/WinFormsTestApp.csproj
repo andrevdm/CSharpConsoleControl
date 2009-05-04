@@ -79,9 +79,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TerminalControl.Core\TerminalControl.Core.csproj">
+    <ProjectReference Include="..\TerminalCore\TerminalCore.csproj">
       <Project>{48814A81-17B8-4AD6-8DE9-49B1E0E154E8}</Project>
-      <Name>TerminalControl.Core</Name>
+      <Name>TerminalCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\WinFormsTerminalControl\WinFormsTerminalControl.csproj">
       <Project>{4D5BA2B7-7F3C-495C-AD36-5FFF95AEA9B4}</Project>

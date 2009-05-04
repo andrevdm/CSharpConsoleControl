@@ -3,13 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TerminalControl.Core
+namespace TerminalCore
 {
-	public class Terminal
+	public class TerminalController
 	{
-		public Terminal( string prompt )
+		private readonly ITerminalView m_view;
+
+		public TerminalController( ITerminalView view, string prompt )
 		{
+			m_view = view;
+
 			#region param checks
+			if( view == null )
+			{
+				throw new ArgumentNullException( "view" );
+			}
+
 			if( prompt == null )
 			{
 				throw new ArgumentNullException( "prompt" );

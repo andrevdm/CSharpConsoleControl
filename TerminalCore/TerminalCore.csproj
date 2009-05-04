@@ -8,8 +8,8 @@
     <ProjectGuid>{48814A81-17B8-4AD6-8DE9-49B1E0E154E8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TerminalControl.Core</RootNamespace>
-    <AssemblyName>TerminalControl.Core</AssemblyName>
+    <RootNamespace>TerminalCore</RootNamespace>
+    <AssemblyName>TerminalCore</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -45,7 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Terminal.cs" />
+    <Compile Include="ITerminalView.cs" />
+    <Compile Include="Model\Colour.cs" />
+    <Compile Include="Model\Paragraph.cs" />
+    <Compile Include="Model\SizeF.cs" />
+    <Compile Include="Model\Span.cs" />
+    <Compile Include="Model\SpanFont.cs" />
+    <Compile Include="Model\SpanFontStyle.cs" />
+    <Compile Include="TerminalController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

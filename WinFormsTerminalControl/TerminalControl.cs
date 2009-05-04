@@ -7,15 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using TerminalControl.Core;
+using TerminalCore;
+using TerminalCore.Model;
+
+using SizeF=System.Drawing.SizeF;
 
 namespace WinFormsTerminalControl
 {
-	public partial class TerminalControl : UserControl
+	public partial class TerminalControl : UserControl, ITerminalView
 	{
 		protected float m_charWidth;
 		protected float m_charHeight;
-		protected Terminal m_terminal;
+		protected TerminalController m_terminal;
 
 		public TerminalControl()
 		{
@@ -26,7 +29,7 @@ namespace WinFormsTerminalControl
 			SetStyle( ControlStyles.AllPaintingInWmPaint, true );
 			
 			MeasureFont();
-			m_terminal = new Terminal( "tst> " );
+			m_terminal = new TerminalController( this, "tst> " );
 		}
 
 		private void MeasureFont()
@@ -51,6 +54,11 @@ namespace WinFormsTerminalControl
 					(float)(0 * m_charWidth),
 					(float)(0 * m_charHeight) );
 			}
+		}
+
+		public TerminalCore.Model.SizeF MeasureText( string text, SpanFont font )
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

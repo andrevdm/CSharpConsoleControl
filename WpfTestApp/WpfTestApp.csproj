@@ -92,9 +92,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TerminalControl.Core\TerminalControl.Core.csproj">
+    <ProjectReference Include="..\TerminalCore\TerminalCore.csproj">
       <Project>{48814A81-17B8-4AD6-8DE9-49B1E0E154E8}</Project>
-      <Name>TerminalControl.Core</Name>
+      <Name>TerminalCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\WpfTerminalControl\WpfTerminalControl.csproj">
       <Project>{B6E65293-2F0A-49F8-9C6C-712DE225CD77}</Project>
