@@ -111,18 +111,13 @@ namespace TerminalCore
 					break;
 
 				case (char)27:
-					EscapePressed();
+					ClearCurrentLine();
 					break;
 
 				default:
 					AppendCharToCurrentSpan( c );
 					break;
 			}
-		}
-
-		private void EscapePressed()
-		{
-			ClearCurrentLine();
 		}
 
 		private void ClearCurrentLine()

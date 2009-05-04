@@ -37,7 +37,15 @@ namespace WpfTerminalControl
 
 		public SizeF MeasureText( string text, SpanFont font )
 		{
-			throw new NotImplementedException();
+			FormattedText formattedText = new FormattedText(
+									text,
+									m_culture,
+									FlowDirection.LeftToRight,
+									TypefaceFromSpanFont( font ),
+									font.Size,
+									Brushes.Black );
+
+			return new SizeF( (float)formattedText.WidthIncludingTrailingWhitespace, (float)formattedText.Height );
 		}
 
 		protected override void OnTextInput( TextCompositionEventArgs e )

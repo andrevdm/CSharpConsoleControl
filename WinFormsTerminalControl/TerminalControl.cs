@@ -109,7 +109,12 @@ namespace WinFormsTerminalControl
 
 		public TerminalCore.Model.SizeF MeasureText( string text, SpanFont font )
 		{
-			throw new NotImplementedException();
+			using( var g = CreateGraphics() )
+			{
+				SizeF size = MeasureString( g, text, FontFromSpanFont( font ) );
+
+				return new TerminalCore.Model.SizeF( size.Width, size.Height );
+			}
 		}
 
 		/// <summary>
