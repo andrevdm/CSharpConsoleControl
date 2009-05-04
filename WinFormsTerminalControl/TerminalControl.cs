@@ -31,6 +31,7 @@ namespace WinFormsTerminalControl
 			base.OnKeyPress( e );
 
 			m_terminal.CharTyped( e.KeyChar );
+			Invalidate( true );
 		}
 
 		private void TerminalControl_Paint( object sender, PaintEventArgs e )

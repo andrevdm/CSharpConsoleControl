@@ -32,6 +32,6 @@ namespace TerminalCore.Model
 		public SpanFont Font { get; private set; }
 		public Colour BackgroundColour { get; private set; }
 		public Colour ForegroundColour { get; private set; }
-		public string Text { get; private set; }
+		public string Text { get; set; }
 	}
 }

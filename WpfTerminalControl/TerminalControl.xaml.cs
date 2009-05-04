@@ -47,6 +47,8 @@ namespace WpfTerminalControl
 			{
 				m_terminal.CharTyped( e.Text[ 0 ] );
 			}
+
+			m_terminalCanvas.InvalidateVisual();
 		}
 
 		protected override void OnPreviewKeyDown( KeyEventArgs e )

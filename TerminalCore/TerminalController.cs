@@ -8,6 +8,8 @@ namespace TerminalCore
 	public class TerminalController
 	{
 		private readonly ITerminalView m_view;
+		private readonly LinkedList<Line> m_lines = new LinkedList<Line>();
+		private Line m_currentLine = new Line();
 
 		public TerminalController( ITerminalView view, string prompt )
 			: this( view, prompt, Colours.White, Colours.Black, new SpanFont( "Courier New", SpanFontStyle.Normal, 12 ) )
@@ -86,11 +88,45 @@ namespace TerminalCore
 
 
 			yield return p;
+
+			foreach( var line in m_lines )
+			{
+				yield return line;
+			}
+
+			yield return m_currentLine;
 		}
 
 		public void CharTyped( char c )
 		{
-			
+			switch( c )
+			{
+				case (char)0x13:
+					ReturnPressed();
+					break;
+
+				default:
+					AppendCharToCurrentSpan( c );
+					break;
+			}
+		}
+
+		private void AppendCharToCurrentSpan( char c )
+		{
+			if( char.IsLetterOrDigit( c ) || char.IsWhiteSpace( c ) )
+			{
+				m_currentLine.LastSpan.Text += c;
+			}
+		}
+
+		private void ReturnPressed()
+		{
+			if( m_currentLine.HasText() )
+			{
+				m_lines.AddFirst( m_currentLine );
+			}
+
+			m_currentLine = new Line();
 		}
 
 		public string Prompt { get; private set; }
