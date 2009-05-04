@@ -11,7 +11,7 @@ namespace WinFormsTerminalControl
 {
 	public partial class TerminalControl : UserControl, ITerminalView
 	{
-		protected readonly TerminalController m_terminal;
+		private readonly TerminalController m_terminal;
 
 		public TerminalControl()
 		{
@@ -24,7 +24,7 @@ namespace WinFormsTerminalControl
 			m_terminal = new TerminalController( this, "tst> " );
 			Font = FontFromSpanFont( m_terminal.DefaultSpanFont );
 		}
-		
+
 		private void TerminalControl_Paint( object sender, PaintEventArgs e )
 		{
 			float top = 0;
@@ -38,7 +38,9 @@ namespace WinFormsTerminalControl
 				{
 					Font font = span.Font != null ? FontFromSpanFont( span.Font ) : Font;
 
-					SizeF fontSize = e.Graphics.MeasureString( span.Text, font );
+					//SizeF fontSize = TextRenderer.MeasureText( span.Text, font );
+					//SizeF fontSize = e.Graphics.MeasureString( span.Text, font );
+					SizeF fontSize = MeasureDisplayStringWidth( e.Graphics, span.Text, font );
 
 					if( span.BackgroundColour != null )
 					{
@@ -100,6 +102,28 @@ namespace WinFormsTerminalControl
 		public TerminalCore.Model.SizeF MeasureText( string text, SpanFont font )
 		{
 			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// From: http://www.codeproject.com/KB/GDI-plus/measurestring.aspx
+		/// </summary>
+		/// <param name="graphics"></param>
+		/// <param name="text"></param>
+		/// <param name="font"></param>
+		/// <returns></returns>
+		private static SizeF MeasureDisplayStringWidth( Graphics graphics, string text, Font font )
+		{
+			StringFormat format = new StringFormat();
+			RectangleF rect = new RectangleF( 0, 0, 1000, 1000 );
+			CharacterRange[] ranges = { new CharacterRange( 0, text.Length ) };
+
+			format.SetMeasurableCharacterRanges( ranges );
+			format.FormatFlags = StringFormatFlags.MeasureTrailingSpaces;
+
+			Region[] regions = graphics.MeasureCharacterRanges( text, font, rect, format );
+			rect = regions[ 0 ].GetBounds( graphics );
+
+			return new SizeF( rect.Right + 1.0f, rect.Bottom + 1.0f );
 		}
 	}
 }
