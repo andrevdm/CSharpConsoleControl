@@ -82,13 +82,13 @@ namespace WinFormsTerminalControl
 			FontStyle style = FontStyle.Regular;
 
 			if( (spanFont.Style & SpanFontStyle.Bold) != 0 )
-				style &= FontStyle.Bold;
+				style |= FontStyle.Bold;
 
 			if( (spanFont.Style & SpanFontStyle.Italic) != 0 )
-				style &= FontStyle.Italic;
+				style |= FontStyle.Italic;
 
 			if( (spanFont.Style & SpanFontStyle.Underline) != 0 )
-				style &= FontStyle.Underline;
+				style |= FontStyle.Underline;
 
 			return style;
 		}
@@ -106,7 +106,7 @@ namespace WinFormsTerminalControl
 		/// <summary>
 		/// MeasureString lies. This method trys to get a more accurate string size.
 		/// From: http://www.codeproject.com/KB/GDI-plus/measurestring.aspx?fid=3655&select=1682461#xx1682461xx
-		/// </summary>
+			/// </summary>
 		/// <param name="g"></param>
 		/// <param name="text"></param>
 		/// <param name="font"></param>
