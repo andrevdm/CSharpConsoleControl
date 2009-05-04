@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Windows.Forms;
 
 using TerminalCore;
@@ -38,9 +39,7 @@ namespace WinFormsTerminalControl
 				{
 					Font font = span.Font != null ? FontFromSpanFont( span.Font ) : Font;
 
-					//SizeF fontSize = TextRenderer.MeasureText( span.Text, font );
-					//SizeF fontSize = e.Graphics.MeasureString( span.Text, font );
-					SizeF fontSize = MeasureDisplayStringWidth( e.Graphics, span.Text, font );
+					SizeF fontSize = MeasureString( e.Graphics, span.Text, font );
 
 					if( span.BackgroundColour != null )
 					{
@@ -105,25 +104,18 @@ namespace WinFormsTerminalControl
 		}
 
 		/// <summary>
-		/// From: http://www.codeproject.com/KB/GDI-plus/measurestring.aspx
+		/// MeasureString lies. This method trys to get a more accurate string size.
+		/// From: http://www.codeproject.com/KB/GDI-plus/measurestring.aspx?fid=3655&select=1682461#xx1682461xx
 		/// </summary>
-		/// <param name="graphics"></param>
+		/// <param name="g"></param>
 		/// <param name="text"></param>
 		/// <param name="font"></param>
 		/// <returns></returns>
-		private static SizeF MeasureDisplayStringWidth( Graphics graphics, string text, Font font )
+		private SizeF MeasureString( Graphics g, string text, Font font )
 		{
-			StringFormat format = new StringFormat();
-			RectangleF rect = new RectangleF( 0, 0, 1000, 1000 );
-			CharacterRange[] ranges = { new CharacterRange( 0, text.Length ) };
-
-			format.SetMeasurableCharacterRanges( ranges );
-			format.FormatFlags = StringFormatFlags.MeasureTrailingSpaces;
-
-			Region[] regions = graphics.MeasureCharacterRanges( text, font, rect, format );
-			rect = regions[ 0 ].GetBounds( graphics );
-
-			return new SizeF( rect.Right + 1.0f, rect.Bottom + 1.0f );
+			SizeF fontSizeDouble = g.MeasureString( text + text, font );
+			SizeF fontSizeSingle = g.MeasureString( text, font );
+			return new SizeF( fontSizeDouble.Width - fontSizeSingle.Width + 1.0f, fontSizeSingle.Height );
 		}
 	}
 }
