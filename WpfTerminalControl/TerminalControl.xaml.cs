@@ -36,27 +36,17 @@ namespace WpfTerminalControl
 
 		public SizeF MeasureText( string text, SpanFont font )
 		{
-			/*Typeface t = new Typeface( 
-				new FontFamily( font.FontFamily.Name ), 
-				FontStyles.Normal, 
-				FontWeights.Bold, 
-				FontStretches.Normal );
-
-			//Windows Forms font size = WPF font size * 72.0 / 96.0.
-			float fontSize = font.Size / (72.0F / 96.0F);
-
-			FormattedText measure = new FormattedText( 
-				text, 
-				m_culture, 
-				FlowDirection.LeftToRight, 
-				m_typeface,
-				fontSize, 
-				Brushes.Black );
-
-			m_charWidth = measure.WidthIncludingTrailingWhitespace;
-			m_charHeight = measure.Height;*/
-
 			throw new NotImplementedException();
+		}
+
+		protected override void OnTextInput( TextCompositionEventArgs e )
+		{
+			base.OnTextInput( e );
+
+			if( !string.IsNullOrEmpty( e.Text ) )
+			{
+				m_terminal.CharTyped( e.Text[ 0 ] );
+			}
 		}
 
 		protected override void OnPreviewKeyDown( KeyEventArgs e )

@@ -26,6 +26,13 @@ namespace WinFormsTerminalControl
 			Font = FontFromSpanFont( m_terminal.DefaultSpanFont );
 		}
 
+		protected override void OnKeyPress( KeyPressEventArgs e )
+		{
+			base.OnKeyPress( e );
+
+			m_terminal.CharTyped( e.KeyChar );
+		}
+
 		private void TerminalControl_Paint( object sender, PaintEventArgs e )
 		{
 			float top = 0;
@@ -106,7 +113,7 @@ namespace WinFormsTerminalControl
 		/// <summary>
 		/// MeasureString lies. This method trys to get a more accurate string size.
 		/// From: http://www.codeproject.com/KB/GDI-plus/measurestring.aspx?fid=3655&select=1682461#xx1682461xx
-			/// </summary>
+		/// </summary>
 		/// <param name="g"></param>
 		/// <param name="text"></param>
 		/// <param name="font"></param>

@@ -88,6 +88,11 @@ namespace TerminalCore
 			yield return p;
 		}
 
+		public void CharTyped( char c )
+		{
+			
+		}
+
 		public string Prompt { get; private set; }
 		public Colour DefaultForegroundColour { get; private set; }
 		public Colour DefaultBackgroundColour { get; private set; }
