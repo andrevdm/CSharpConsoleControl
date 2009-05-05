@@ -39,7 +39,7 @@ namespace WpfTerminalControl
 		protected override void OnInitialized( EventArgs e )
 		{
 			base.OnInitialized( e );
-			
+
 			var prompt = new Span( "test> ", Colours.Blue );
 			var promptWrap = new Span( "      ", Colours.Blue );
 			var promptOutput = new Span( " ", Colours.Blue );
@@ -78,38 +78,40 @@ namespace WpfTerminalControl
 		{
 			base.OnPreviewKeyDown( e );
 
+			var state = TerminalKeyModifier.None;
+
 			switch( e.Key )
 			{
 				case Key.End:
-					Terminal.ControlKeyPressed( TerminalKey.End );
+					Terminal.ControlKeyPressed( TerminalKey.End, state );
 					break;
 
 				case Key.Home:
-					Terminal.ControlKeyPressed( TerminalKey.Home );
+					Terminal.ControlKeyPressed( TerminalKey.Home, state );
 					break;
 
 				case Key.Left:
-					Terminal.ControlKeyPressed( TerminalKey.Left );
+					Terminal.ControlKeyPressed( TerminalKey.Left, state );
 					break;
 
 				case Key.Up:
-					Terminal.ControlKeyPressed( TerminalKey.Up );
+					Terminal.ControlKeyPressed( TerminalKey.Up, state );
 					break;
 
 				case Key.Right:
-					Terminal.ControlKeyPressed( TerminalKey.Right );
+					Terminal.ControlKeyPressed( TerminalKey.Right, state );
 					break;
 
 				case Key.Down:
-					Terminal.ControlKeyPressed( TerminalKey.Down);
+					Terminal.ControlKeyPressed( TerminalKey.Down, state );
 					break;
 
 				case Key.Insert:
-					Terminal.ControlKeyPressed( TerminalKey.Insert );
+					Terminal.ControlKeyPressed( TerminalKey.Insert, state );
 					break;
 
 				case Key.Delete:
-					Terminal.ControlKeyPressed( TerminalKey.Delete );
+					Terminal.ControlKeyPressed( TerminalKey.Delete, state );
 					break;
 			}
 		}
@@ -185,5 +187,5 @@ namespace WpfTerminalControl
 		}
 
 		public TerminalController Terminal { get { return m_terminal; } }
-		}
+	}
 }

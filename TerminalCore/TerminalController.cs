@@ -135,7 +135,7 @@ namespace TerminalCore
 			}
 		}
 
-		public void ControlKeyPressed( TerminalKey key )
+		public void ControlKeyPressed( TerminalKey key, TerminalKeyModifier state )
 		{
 			switch( key )
 			{

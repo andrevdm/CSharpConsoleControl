@@ -50,38 +50,40 @@ namespace WinFormsTerminalControl
 		{
 			base.OnKeyDown( e );
 
+			var state = TerminalKeyModifier.None;
+
 			switch( e.KeyCode )
 			{
 				case Keys.End:
-					m_terminal.ControlKeyPressed( TerminalKey.End );
+					m_terminal.ControlKeyPressed( TerminalKey.End, state );
 					break;
 
 				case Keys.Home:
-					m_terminal.ControlKeyPressed( TerminalKey.Home );
+					m_terminal.ControlKeyPressed( TerminalKey.Home, state );
 					break;
 
 				case Keys.Left:
-					m_terminal.ControlKeyPressed( TerminalKey.Left );
+					m_terminal.ControlKeyPressed( TerminalKey.Left, state );
 					break;
 
 				case Keys.Up:
-					m_terminal.ControlKeyPressed( TerminalKey.Up );
+					m_terminal.ControlKeyPressed( TerminalKey.Up, state );
 					break;
 
 				case Keys.Right:
-					m_terminal.ControlKeyPressed( TerminalKey.Right );
+					m_terminal.ControlKeyPressed( TerminalKey.Right, state );
 					break;
 
 				case Keys.Down:
-					m_terminal.ControlKeyPressed( TerminalKey.Down );
+					m_terminal.ControlKeyPressed( TerminalKey.Down, state );
 					break;
 
 				case Keys.Insert:
-					m_terminal.ControlKeyPressed( TerminalKey.Insert );
+					m_terminal.ControlKeyPressed( TerminalKey.Insert, state );
 					break;
 
 				case Keys.Delete:
-					m_terminal.ControlKeyPressed( TerminalKey.Delete );
+					m_terminal.ControlKeyPressed( TerminalKey.Delete, state );
 					break;
 			}
 		}
