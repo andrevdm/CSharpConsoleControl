@@ -8,7 +8,7 @@ namespace TerminalCore
 	public class TerminalController
 	{
 		private readonly ITerminalView m_view;
-		private readonly LinkedList<Line> m_lines = new LinkedList<Line>();
+		private readonly LinkedList<UserLine> m_lines = new LinkedList<UserLine>();
 		private UserLine m_currentLine;
 
 		public TerminalController( ITerminalView view, SizeD charSize, int charsPerLine, PromptSpan prompt, PromptWrapSpan promptWrap )
@@ -66,11 +66,17 @@ namespace TerminalCore
 
 		public IEnumerable<Line> GetLines()
 		{
-			//TODO Have a cached List<Lines> on each Line with an associated width. If the views' width is different then recalc wrap, else just return lines.
-
-			foreach( Line line in m_lines )
+			foreach( UserLine line in m_lines )
 			{
-				yield return line;
+				if( (line.CachedLines == null) || (line.CachedLines.Count == 0) || (line.CachedWrapAt != CharsPerLine) )
+				{
+					UpdateLineCache( line );
+				}
+
+				foreach( var cachedLine in line.CachedLines )
+				{
+					yield return cachedLine;
+				}
 			}
 
 			yield return m_currentLine;
@@ -116,6 +122,15 @@ namespace TerminalCore
 			}
 
 			ClearCurrentLine();
+		}
+
+		private void UpdateLineCache( UserLine line )
+		{
+			line.CachedLines = new List<CachedLine>();
+
+			var cachedLine = new CachedLine();
+			cachedLine.Spans.AddRange( line.Spans );
+			line.CachedLines.Add( cachedLine );
 		}
 
 		public int CharsPerLine { get; set; }

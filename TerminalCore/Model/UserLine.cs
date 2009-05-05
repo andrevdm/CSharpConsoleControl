@@ -5,6 +5,11 @@ namespace TerminalCore.Model
 {
 	public class UserLine : Line
 	{
+		public UserLine()
+		{
+			CachedWrapAt = -1;
+		}
+
 		public bool HasUserText()
 		{
 			for( int i = 1; i < Spans.Count; ++ i )
@@ -38,6 +43,7 @@ namespace TerminalCore.Model
 			}
 		}
 
+		public int CachedWrapAt{ get; set; }
 		public List<CachedLine> CachedLines { get; set; }
 	}
 }
