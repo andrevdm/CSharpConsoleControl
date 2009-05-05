@@ -11,8 +11,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
+using Boo.Lang.Compiler;
+
 using TerminalCore;
 using TerminalCore.Model;
+using System.Diagnostics;
+using System.Threading;
+
+using Boo.Lang.Interpreter;
 
 namespace WpfTestApp
 {
@@ -21,6 +28,8 @@ namespace WpfTestApp
 	/// </summary>
 	public partial class Window1 : Window
 	{
+		private InteractiveInterpreter2 m_boo;
+
 		public Window1()
 		{
 			InitializeComponent();
@@ -28,12 +37,28 @@ namespace WpfTestApp
 			Terminal.LineEntered += Terminal_LineEntered;
 		}
 
-		private void Terminal_LineEntered( object sender, LineEventArgs e )
+		protected override void OnInitialized( EventArgs e )
 		{
-			Terminal.WriteOutput( "Echo\r\n'" + e.Line + "\n'", Colours.Green, Terminal.DefaultBackgroundColour );
-			m_terminal.InvalidateVisual();
+			base.OnInitialized( e );
+
+			m_boo = new InteractiveInterpreter2();
+			m_boo.RememberLastValue = true;
 		}
 
-		public TerminalController Terminal { get { return m_terminal.Terminal; } }
+
+		private void Terminal_LineEntered( object sender, LineEventArgs e )
+		{
+			try
+			{
+				m_boo.Eval( e.Line );
+				Terminal.WriteOutput( m_boo.LastValue.ToString(), Colours.Green );
+			}
+			catch( Exception ex )
+			{
+				Terminal.WriteOutput( ex.Message, Colours.Red );
+			}
+		}
+
+		private TerminalController Terminal { get { return m_terminal.Terminal; } }
 	}
 }

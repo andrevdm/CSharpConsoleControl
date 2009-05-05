@@ -135,6 +135,11 @@ namespace TerminalCore
 			WriteOutput( text, DefaultForegroundColour, DefaultBackgroundColour );
 		}
 
+		public void WriteOutput( string text, Colour foregroundColour )
+		{
+			WriteOutput( text, foregroundColour, DefaultBackgroundColour );
+		}
+
 		public void WriteOutput( string text, Colour foregroundColour, Colour backgroundColour )
 		{
 			var outputLines = Regex.Split( text, "(\r\n)|\r|\n" );
