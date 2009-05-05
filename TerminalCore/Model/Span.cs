@@ -5,21 +5,16 @@ namespace TerminalCore.Model
 	public class Span
 	{
 		public Span( string text )
-			: this( text, null, null, null )
+			: this( text, null, null )
 		{
 		}
 
-		public Span( string text, SpanFont font )
-			: this( text, font, null, null )
+		public Span( string text, Colour foregroundColour )
+			: this( text, foregroundColour, null )
 		{
 		}
 
-		public Span( string text, SpanFont font, Colour foregroundColour )
-			: this( text, font, foregroundColour, null )
-		{
-		}
-
-		public Span( string text, SpanFont font, Colour foregroundColour, Colour backgroundColour )
+		public Span( string text, Colour foregroundColour, Colour backgroundColour )
 		{
 			#region param checks
 			if( text == null )
@@ -29,12 +24,10 @@ namespace TerminalCore.Model
 			#endregion
 
 			Text = text;
-			Font = font;
 			ForegroundColour = foregroundColour;
 			BackgroundColour = backgroundColour;
 		}
 
-		public SpanFont Font { get; private set; }
 		public Colour BackgroundColour { get; private set; }
 		public Colour ForegroundColour { get; private set; }
 		public string Text { get; set; }

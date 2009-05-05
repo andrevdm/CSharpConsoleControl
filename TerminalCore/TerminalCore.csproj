@@ -50,8 +50,6 @@
     <Compile Include="Model\Line.cs" />
     <Compile Include="Model\SizeF.cs" />
     <Compile Include="Model\Span.cs" />
-    <Compile Include="Model\SpanFont.cs" />
-    <Compile Include="Model\SpanFontStyle.cs" />
     <Compile Include="TerminalController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -22,9 +22,8 @@ namespace WinFormsTerminalControl
 			SetStyle( ControlStyles.UserPaint, true );
 			SetStyle( ControlStyles.AllPaintingInWmPaint, true );
 
-			var prompt = new Span( "test> ", new SpanFont( "Courier New", SpanFontStyle.Normal, 12 ), Colours.Blue );
+			var prompt = new Span( "test> ", Colours.Blue );
 			m_terminal = new TerminalController( this, prompt );
-			Font = FontFromSpanFont( m_terminal.DefaultSpanFont );
 		}
 
 		protected override void OnKeyPress( KeyPressEventArgs e )
@@ -46,9 +45,7 @@ namespace WinFormsTerminalControl
 
 				foreach( Span span in line.Spans )
 				{
-					Font font = span.Font != null ? FontFromSpanFont( span.Font ) : Font;
-
-					SizeF fontSize = MeasureString( e.Graphics, span.Text, font );
+					SizeF fontSize = MeasureString( e.Graphics, span.Text, Font );
 
 					if( span.BackgroundColour != null )
 					{
@@ -62,7 +59,7 @@ namespace WinFormsTerminalControl
 					{
 						e.Graphics.DrawString(
 							span.Text,
-							font,
+							Font,
 							fgBrush,
 							left,
 							top );
@@ -76,42 +73,16 @@ namespace WinFormsTerminalControl
 			}
 		}
 
-		private Font FontFromSpanFont( SpanFont spanFont )
-		{
-			return new Font( spanFont.TypeFace, SizeFromSpanFontSize( spanFont.Size ), FontStyleFromSpanFont( spanFont ) );
-		}
-
-		private float SizeFromSpanFontSize( float size )
-		{
-			return (size / 96.0F) * 72.0F;
-		}
-
-		private FontStyle FontStyleFromSpanFont( SpanFont spanFont )
-		{
-			FontStyle style = FontStyle.Regular;
-
-			if( (spanFont.Style & SpanFontStyle.Bold) != 0 )
-				style |= FontStyle.Bold;
-
-			if( (spanFont.Style & SpanFontStyle.Italic) != 0 )
-				style |= FontStyle.Italic;
-
-			if( (spanFont.Style & SpanFontStyle.Underline) != 0 )
-				style |= FontStyle.Underline;
-
-			return style;
-		}
-
 		private Color ColorFromSpanColour( Colour colour )
 		{
 			return Color.FromArgb( colour.Alpha, colour.Red, colour.Green, colour.Blue );
 		}
 
-		public TerminalCore.Model.SizeF MeasureText( string text, SpanFont font )
+		public TerminalCore.Model.SizeF MeasureText( string text )
 		{
 			using( var g = CreateGraphics() )
 			{
-				SizeF size = MeasureString( g, text, FontFromSpanFont( font ) );
+				SizeF size = MeasureString( g, text, Font );
 
 				return new TerminalCore.Model.SizeF( size.Width, size.Height );
 			}

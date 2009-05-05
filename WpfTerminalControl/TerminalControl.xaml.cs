@@ -18,6 +18,7 @@ namespace WpfTerminalControl
 		private readonly Typeface m_typeface;
 		private readonly CultureInfo m_culture;
 		private readonly TerminalController m_terminal;
+		private const int m_fontSize = 12;
 
 		public TerminalControl()
 		{
@@ -25,24 +26,24 @@ namespace WpfTerminalControl
 
 			IsTabStop = true;
 
-			var prompt = new Span( "test> ", new SpanFont( "Courier New", SpanFontStyle.Normal, 12 ), Colours.Blue );
+			var prompt = new Span( "test> ", Colours.Blue );
 			m_terminal = new TerminalController( this, prompt );
 
 			m_culture = CultureInfo.GetCultureInfo( "en-us" );
-			m_typeface = new Typeface( m_terminal.DefaultSpanFont.TypeFace );
+			m_typeface = new Typeface( "Courier New" );
 
 			Background = new SolidColorBrush( ColorFromSpanColour( m_terminal.DefaultBackgroundColour ) );
 			Foreground = new SolidColorBrush( ColorFromSpanColour( m_terminal.DefaultForegroundColour ) );
 		}
 
-		public SizeF MeasureText( string text, SpanFont font )
+		public SizeF MeasureText( string text )
 		{
 			FormattedText formattedText = new FormattedText(
 									text,
 									m_culture,
 									FlowDirection.LeftToRight,
-									TypefaceFromSpanFont( font ),
-									font.Size,
+									m_typeface,
+									m_fontSize,
 									Brushes.Black );
 
 			return new SizeF( (float)formattedText.WidthIncludingTrailingWhitespace, (float)formattedText.Height );
@@ -101,16 +102,13 @@ namespace WpfTerminalControl
 				{
 					var fgBrush = span.ForegroundColour != null ? new SolidColorBrush( ColorFromSpanColour( span.ForegroundColour ) ) : Foreground;
 
-					var font = span.Font ?? m_terminal.DefaultSpanFont;
-
 					FormattedText formattedText = new FormattedText(
 						span.Text,
 						m_culture,
 						FlowDirection.LeftToRight,
-						TypefaceFromSpanFont( font ),
-						font.Size,
+						m_typeface,
+						m_fontSize,
 						fgBrush );
-
 
 					if( span.BackgroundColour != null )
 					{
@@ -130,26 +128,6 @@ namespace WpfTerminalControl
 
 				top += maxHeight;
 			}
-		}
-
-		private Typeface TypefaceFromSpanFont( SpanFont spanFont )
-		{
-			return new Typeface(
-				new FontFamily( spanFont.TypeFace ),
-				FontStyleFromSpanFont( spanFont ),
-				FontWeightFromSpanFont( spanFont ),
-				FontStretches.Normal
-				);
-		}
-
-		private FontWeight FontWeightFromSpanFont( SpanFont spanFont )
-		{
-			return ((spanFont.Style & SpanFontStyle.Bold) != 0) ? FontWeights.Bold : FontWeights.Normal;
-		}
-
-		private FontStyle FontStyleFromSpanFont( SpanFont spanFont )
-		{
-			return ((spanFont.Style & SpanFontStyle.Italic) != 0) ? FontStyles.Italic : FontStyles.Normal;
 		}
 
 		private Color ColorFromSpanColour( Colour spanColour )

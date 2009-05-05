@@ -12,7 +12,7 @@ namespace TerminalCore
 		private Line m_currentLine;
 
 		public TerminalController( ITerminalView view, Span prompt )
-			: this( view, prompt, Colours.White, Colours.Black, new SpanFont( "Courier New", SpanFontStyle.Normal, 12 ) )
+			: this( view, prompt, Colours.White, Colours.Black )
 		{
 		}
 
@@ -20,8 +20,7 @@ namespace TerminalCore
 			ITerminalView view,
 			Span prompt,
 			Colour defaultForegroundColour,
-			Colour defaultBackgroundColour,
-			SpanFont defaultFont )
+			Colour defaultBackgroundColour )
 		{
 			m_view = view;
 
@@ -45,23 +44,20 @@ namespace TerminalCore
 			{
 				throw new ArgumentNullException( "defaultForegroundColour" );
 			}
-
-			if( defaultFont == null )
-			{
-				throw new ArgumentNullException( "defaultFont" );
-			}
 			#endregion
 
 			Prompt = prompt;
 			DefaultBackgroundColour = defaultBackgroundColour;
 			DefaultForegroundColour = defaultForegroundColour;
-			DefaultSpanFont = defaultFont;
 
 			ClearCurrentLine();
 		}
 
 		public IEnumerable<Line> GetLines()
 		{
+			//TODO Have a cached List<Lines> on each Line with an associated width. If the views' width is different then recalc wrap, else just return lines.
+
+
 			//TODO remove
 			//------------------------------------
 			var p = new Line();
@@ -69,7 +65,6 @@ namespace TerminalCore
 
 			p.Spans.Add( new Span(
 								"abcdefg",
-								new SpanFont( "Consolas", SpanFontStyle.Normal, 14 ),
 								new Colour( 0, 0, 255 ),
 								new Colour( 255, 255, 255 ) ) );
 
@@ -80,13 +75,11 @@ namespace TerminalCore
 
 			p.Spans.Add( new Span(
 								"abcdefg",
-								new SpanFont( "Consolas", SpanFontStyle.Italic | SpanFontStyle.Bold, 10 ),
 								new Colour( 0, 255, 0 ),
 								new Colour( 100, 100, 100 ) ) );
 
 			p.Spans.Add( new Span(
 								"hij dd",
-								new SpanFont( "Consolas", SpanFontStyle.Normal, 10 ),
 								new Colour( 0, 255, 0 ),
 								new Colour( 0, 0, 0 ) ) );
 
@@ -147,6 +140,5 @@ namespace TerminalCore
 		private Span Prompt { get; set; }
 		public Colour DefaultForegroundColour { get; private set; }
 		public Colour DefaultBackgroundColour { get; private set; }
-		public SpanFont DefaultSpanFont { get; private set; }
 	}
 }
