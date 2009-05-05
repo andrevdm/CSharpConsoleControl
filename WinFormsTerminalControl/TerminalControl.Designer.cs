@@ -37,9 +37,10 @@
 			this.BackColor = System.Drawing.Color.Black;
 			this.Font = new System.Drawing.Font( "Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)) );
 			this.ForeColor = System.Drawing.Color.White;
-			this.Margin = new System.Windows.Forms.Padding( 4, 4, 4, 4 );
+			this.Margin = new System.Windows.Forms.Padding( 4 );
 			this.Name = "TerminalControl";
 			this.Size = new System.Drawing.Size( 365, 309 );
+			this.Load += new System.EventHandler( this.TerminalControl_Load );
 			this.Paint += new System.Windows.Forms.PaintEventHandler( this.TerminalControl_Paint );
 			this.ResumeLayout( false );
 

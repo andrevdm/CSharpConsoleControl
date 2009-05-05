@@ -19,6 +19,8 @@ namespace WpfTerminalControl
 		private readonly CultureInfo m_culture;
 		private readonly TerminalController m_terminal;
 		private const int m_fontSize = 12;
+		private readonly double m_charWidth;
+		private readonly double m_charHeight;
 
 		public TerminalControl()
 		{
@@ -26,9 +28,14 @@ namespace WpfTerminalControl
 
 			IsTabStop = true;
 
+			var measure = new FormattedText( "0", m_culture, FlowDirection.LeftToRight, m_typeface, 12, Brushes.Black );
+			m_charWidth = measure.WidthIncludingTrailingWhitespace;
+			m_charHeight = measure.Height;
+
 			var prompt = new PromptSpan( "test> ", Colours.Blue );
 			var promptWrap = new PromptWrapSpan( "    > ", Colours.Blue );
-			m_terminal = new TerminalController( this, prompt, promptWrap );
+			int charsPerLine = (int)(Width / m_charWidth);
+			m_terminal = new TerminalController( this, new SizeD( m_charWidth, m_charHeight ), charsPerLine, prompt, promptWrap );
 
 			m_culture = CultureInfo.GetCultureInfo( "en-us" );
 			m_typeface = new Typeface( "Courier New" );
@@ -37,7 +44,7 @@ namespace WpfTerminalControl
 			Foreground = new SolidColorBrush( ColorFromSpanColour( m_terminal.DefaultForegroundColour ) );
 		}
 
-		public SizeF MeasureText( string text )
+		public SizeD MeasureText( string text )
 		{
 			FormattedText formattedText = new FormattedText(
 									text,
@@ -47,7 +54,7 @@ namespace WpfTerminalControl
 									m_fontSize,
 									Brushes.Black );
 
-			return new SizeF( (float)formattedText.WidthIncludingTrailingWhitespace, (float)formattedText.Height );
+			return new SizeD( formattedText.WidthIncludingTrailingWhitespace, formattedText.Height );
 		}
 
 		protected override void OnTextInput( TextCompositionEventArgs e )
@@ -114,7 +121,7 @@ namespace WpfTerminalControl
 					if( span.BackgroundColour != null )
 					{
 						var bgBrush = span.BackgroundColour != null ? new SolidColorBrush( ColorFromSpanColour( span.BackgroundColour ) ) : Background;
-						
+
 						ctx.DrawRectangle(
 							bgBrush,
 							null,

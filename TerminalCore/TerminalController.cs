@@ -11,13 +11,15 @@ namespace TerminalCore
 		private readonly LinkedList<Line> m_lines = new LinkedList<Line>();
 		private Line m_currentLine;
 
-		public TerminalController( ITerminalView view, PromptSpan prompt, PromptWrapSpan promptWrap )
-			: this( view, prompt, promptWrap, Colours.White, Colours.Black )
+		public TerminalController( ITerminalView view, SizeD charSize, int charsPerLine, PromptSpan prompt, PromptWrapSpan promptWrap )
+			: this( view, charSize, charsPerLine, prompt, promptWrap, Colours.White, Colours.Black )
 		{
 		}
 
 		public TerminalController(
 			ITerminalView view,
+			SizeD charSize,
+			int charsPerLine,
 			PromptSpan prompt,
 			PromptWrapSpan promptWrap,
 			Colour defaultForegroundColour,
@@ -29,6 +31,11 @@ namespace TerminalCore
 			if( view == null )
 			{
 				throw new ArgumentNullException( "view" );
+			}
+
+			if( charSize == null )
+			{
+				throw new ArgumentNullException( "charSize" );
 			}
 
 			if( prompt == null )
@@ -48,6 +55,8 @@ namespace TerminalCore
 			#endregion
 
 			Prompt = prompt;
+			CharSize = charSize;
+			CharsPerLine = charsPerLine;
 			PromptWrap = promptWrap;
 			DefaultBackgroundColour = defaultBackgroundColour;
 			DefaultForegroundColour = defaultForegroundColour;
@@ -139,6 +148,8 @@ namespace TerminalCore
 			ClearCurrentLine();
 		}
 
+		public int CharsPerLine { get; set; }
+		public SizeD CharSize { get; private set; }
 		private PromptSpan Prompt { get; set; }
 		private PromptWrapSpan PromptWrap { get; set; }
 		public Colour DefaultForegroundColour { get; private set; }

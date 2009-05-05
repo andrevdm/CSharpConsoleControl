@@ -4,6 +4,6 @@ namespace TerminalCore
 {
 	public interface ITerminalView
 	{
-		SizeF MeasureText( string text );
+		SizeD MeasureText( string text );
 	}
 }

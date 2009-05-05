@@ -12,7 +12,9 @@ namespace WinFormsTerminalControl
 {
 	public partial class TerminalControl : UserControl, ITerminalView
 	{
-		private readonly TerminalController m_terminal;
+		private TerminalController m_terminal;
+		private float m_charWidth;
+		private float m_charHeight;
 
 		public TerminalControl()
 		{
@@ -21,10 +23,26 @@ namespace WinFormsTerminalControl
 			SetStyle( ControlStyles.DoubleBuffer, true );
 			SetStyle( ControlStyles.UserPaint, true );
 			SetStyle( ControlStyles.AllPaintingInWmPaint, true );
+		}
+
+		private void TerminalControl_Load( object sender, EventArgs e )
+		{
+			MeasureFont();
 
 			var prompt = new PromptSpan( "test> ", Colours.Blue );
 			var promptWrap = new PromptWrapSpan( "    > ", Colours.Blue );
-			m_terminal = new TerminalController( this, prompt, promptWrap );
+			int charsPerLine = (int)(Width / m_charWidth);
+			m_terminal = new TerminalController( this, new SizeD( m_charWidth, m_charHeight ), charsPerLine, prompt, promptWrap );
+		}
+
+		private void MeasureFont()
+		{
+			using( Graphics g = CreateGraphics() )
+			{
+				SizeF size = MeasureString( g, "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", Font );
+				m_charWidth = size.Width / 400F;
+				m_charHeight = size.Height;
+			}
 		}
 
 		protected override void OnKeyPress( KeyPressEventArgs e )
@@ -79,13 +97,13 @@ namespace WinFormsTerminalControl
 			return Color.FromArgb( colour.Alpha, colour.Red, colour.Green, colour.Blue );
 		}
 
-		public TerminalCore.Model.SizeF MeasureText( string text )
+		public TerminalCore.Model.SizeD MeasureText( string text )
 		{
 			using( var g = CreateGraphics() )
 			{
 				SizeF size = MeasureString( g, text, Font );
 
-				return new TerminalCore.Model.SizeF( size.Width, size.Height );
+				return new TerminalCore.Model.SizeD( size.Width, size.Height );
 			}
 		}
 
