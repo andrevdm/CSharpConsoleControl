@@ -7,6 +7,8 @@ namespace TerminalCore
 {
 	public class TerminalController
 	{
+		public event EventHandler<LineEventArgs> LineEntered = delegate { };
+
 		private readonly ITerminalView m_view;
 		private readonly LinkedList<UserLine> m_lines = new LinkedList<UserLine>();
 		private UserLine m_currentLine;
@@ -131,6 +133,8 @@ namespace TerminalCore
 			if( m_currentLine.HasUserText() )
 			{
 				m_lines.AddFirst( m_currentLine );
+
+				LineEntered( this, new LineEventArgs( m_currentLine.ToString() ) );
 			}
 
 			ClearCurrentLine();

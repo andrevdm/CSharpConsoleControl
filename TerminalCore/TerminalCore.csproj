@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITerminalView.cs" />
+    <Compile Include="LineEventArgs.cs" />
     <Compile Include="Model\CachedLine.cs" />
     <Compile Include="Model\Colour.cs" />
     <Compile Include="Model\Line.cs" />
