@@ -42,6 +42,7 @@
 			this.Size = new System.Drawing.Size( 365, 309 );
 			this.Load += new System.EventHandler( this.TerminalControl_Load );
 			this.Paint += new System.Windows.Forms.PaintEventHandler( this.TerminalControl_Paint );
+			this.Resize += new System.EventHandler( this.TerminalControl_Resize );
 			this.ResumeLayout( false );
 
 		}

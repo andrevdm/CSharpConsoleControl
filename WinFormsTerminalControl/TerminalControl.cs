@@ -103,7 +103,16 @@ namespace WinFormsTerminalControl
 			{
 				SizeF size = MeasureString( g, text, Font );
 
-				return new TerminalCore.Model.SizeD( size.Width, size.Height );
+				return new SizeD( size.Width, size.Height );
+			}
+		}
+
+		private void TerminalControl_Resize( object sender, EventArgs e )
+		{
+			if( m_terminal != null )
+			{
+				m_terminal.CharsPerLine = (int)(Width / m_charWidth);
+				Invalidate( true );
 			}
 		}
 

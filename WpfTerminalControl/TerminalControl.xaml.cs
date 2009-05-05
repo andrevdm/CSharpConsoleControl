@@ -17,7 +17,7 @@ namespace WpfTerminalControl
 	{
 		private readonly Typeface m_typeface;
 		private readonly CultureInfo m_culture;
-		private readonly TerminalController m_terminal;
+		private TerminalController m_terminal;
 		private const int m_fontSize = 12;
 		private readonly double m_charWidth;
 		private readonly double m_charHeight;
@@ -28,17 +28,22 @@ namespace WpfTerminalControl
 
 			IsTabStop = true;
 
+			m_culture = CultureInfo.GetCultureInfo( "en-us" );
+			m_typeface = new Typeface( "Courier New" );
+
 			var measure = new FormattedText( "0", m_culture, FlowDirection.LeftToRight, m_typeface, 12, Brushes.Black );
 			m_charWidth = measure.WidthIncludingTrailingWhitespace;
 			m_charHeight = measure.Height;
+		}
 
+		protected override void OnInitialized( EventArgs e )
+		{
+			base.OnInitialized( e );
+			
 			var prompt = new PromptSpan( "test> ", Colours.Blue );
 			var promptWrap = new PromptWrapSpan( "    > ", Colours.Blue );
-			int charsPerLine = (int)(Width / m_charWidth);
+			int charsPerLine = int.MaxValue;
 			m_terminal = new TerminalController( this, new SizeD( m_charWidth, m_charHeight ), charsPerLine, prompt, promptWrap );
-
-			m_culture = CultureInfo.GetCultureInfo( "en-us" );
-			m_typeface = new Typeface( "Courier New" );
 
 			Background = new SolidColorBrush( ColorFromSpanColour( m_terminal.DefaultBackgroundColour ) );
 			Foreground = new SolidColorBrush( ColorFromSpanColour( m_terminal.DefaultForegroundColour ) );
@@ -85,6 +90,7 @@ namespace WpfTerminalControl
 
 		public void OnHexCanvasRenderSizeChanged( object sender, RenderSizeChangedEventArgs e )
 		{
+			m_terminal.CharsPerLine = (int)(m_terminalCanvas.ActualWidth / m_charWidth);
 			m_terminalCanvas.InvalidateVisual();
 		}
 

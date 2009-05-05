@@ -79,7 +79,12 @@ namespace TerminalCore
 				}
 			}
 
-			yield return m_currentLine;
+			UpdateLineCache( m_currentLine );
+
+			foreach( var cachedLine in m_currentLine.CachedLines )
+			{
+				yield return cachedLine;
+			}
 		}
 
 		public void CharTyped( char c )
@@ -111,6 +116,7 @@ namespace TerminalCore
 			if( char.IsLetterOrDigit( c ) || char.IsWhiteSpace( c ) )
 			{
 				m_currentLine.LastUserSpan.Text += c;
+				m_currentLine.CachedLines = null;
 			}
 		}
 
@@ -127,10 +133,58 @@ namespace TerminalCore
 		private void UpdateLineCache( UserLine line )
 		{
 			line.CachedLines = new List<CachedLine>();
+			line.CachedWrapAt = CharsPerLine;
 
-			var cachedLine = new CachedLine();
-			cachedLine.Spans.AddRange( line.Spans );
-			line.CachedLines.Add( cachedLine );
+			int len = 0;
+
+			CachedLine cachedLine = null;
+			bool firstLine = true;
+
+			foreach( var origSpan in line.Spans )
+			{
+				if( cachedLine == null )
+				{
+					cachedLine = new CachedLine();
+					line.CachedLines.Add( cachedLine );
+
+					if( !firstLine )
+					{
+						cachedLine.Spans.Add( PromptWrap );
+						len += PromptWrap.Text.Length;
+					}
+				}
+
+				firstLine = false;
+
+				if( (origSpan.Text.Length + len) < CharsPerLine )
+				{
+					cachedLine.Spans.Add( origSpan );
+					len += origSpan.Text.Length;
+				}
+				else
+				{
+					string spanText = origSpan.Text;
+
+					while( spanText.Length > 0 )
+					{
+						string substring = spanText.Substring( 0, Math.Min( CharsPerLine - len, spanText.Length ) );
+						spanText = spanText.Substring( Math.Min( CharsPerLine - len, spanText.Length ) );
+						len = 0;
+
+						var cachedSpan = new Span( origSpan.SpanType, substring, origSpan.ForegroundColour, origSpan.BackgroundColour );
+						cachedLine.Spans.Add( cachedSpan );
+
+						if( spanText.Length > 0 )
+						{
+							cachedLine = new CachedLine();
+							line.CachedLines.Add( cachedLine );
+
+							cachedLine.Spans.Add( PromptWrap );
+							len += PromptWrap.Text.Length;
+						}
+					}
+				}
+			}
 		}
 
 		public int CharsPerLine { get; set; }

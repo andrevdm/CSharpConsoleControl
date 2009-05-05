@@ -2,19 +2,19 @@
 
 namespace TerminalCore.Model
 {
-	public abstract class Span
+	public class Span
 	{
-		protected Span( SpanType spanType, string text )
+		public Span( SpanType spanType, string text )
 			: this( spanType, text, null, null )
 		{
 		}
 
-		protected Span( SpanType spanType, string text, Colour foregroundColour )
+		public Span( SpanType spanType, string text, Colour foregroundColour )
 			: this( spanType, text, foregroundColour, null )
 		{
 		}
 
-		protected Span( SpanType spanType, string text, Colour foregroundColour, Colour backgroundColour )
+		public Span( SpanType spanType, string text, Colour foregroundColour, Colour backgroundColour )
 		{
 			#region param checks
 			if( text == null )
