@@ -9,7 +9,7 @@ namespace TerminalCore
 	{
 		private readonly ITerminalView m_view;
 		private readonly LinkedList<Line> m_lines = new LinkedList<Line>();
-		private Line m_currentLine;
+		private UserLine m_currentLine;
 
 		public TerminalController( ITerminalView view, SizeD charSize, int charsPerLine, PromptSpan prompt, PromptWrapSpan promptWrap )
 			: this( view, charSize, charsPerLine, prompt, promptWrap, Colours.White, Colours.Black )
@@ -68,37 +68,7 @@ namespace TerminalCore
 		{
 			//TODO Have a cached List<Lines> on each Line with an associated width. If the views' width is different then recalc wrap, else just return lines.
 
-
-			//TODO remove
-			//------------------------------------
-			var p = new Line();
-			p.Spans.Add( Prompt );
-
-			p.Spans.Add( new InputSpan(
-								"abcdefg",
-								new Colour( 0, 0, 255 ),
-								new Colour( 255, 255, 255 ) ) );
-
-			yield return p;
-
-			p = new Line();
-			p.Spans.Add( Prompt );
-
-			p.Spans.Add( new InputSpan(
-								"abcdefg",
-								new Colour( 0, 255, 0 ),
-								new Colour( 100, 100, 100 ) ) );
-
-			p.Spans.Add( new InputSpan(
-								"hij dd",
-								new Colour( 0, 255, 0 ),
-								new Colour( 0, 0, 0 ) ) );
-
-
-			yield return p;
-			//------------------------------------
-
-			foreach( var line in m_lines )
+			foreach( Line line in m_lines )
 			{
 				yield return line;
 			}
@@ -126,7 +96,7 @@ namespace TerminalCore
 
 		private void ClearCurrentLine()
 		{
-			m_currentLine = new Line();
+			m_currentLine = new UserLine();
 			m_currentLine.Spans.Add( Prompt );
 		}
 

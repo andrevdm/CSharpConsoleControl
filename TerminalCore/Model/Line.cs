@@ -1,48 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace TerminalCore.Model
 {
-	public class Line
+	public abstract class Line
 	{
-		public Line()
+		protected Line()
 		{
 			Spans = new List<Span>();
 		}
-
-		public bool HasUserText()
-		{
-			for( int i = 1; i < Spans.Count; ++ i )
-			{
-				if( !string.IsNullOrEmpty( Spans[ i ].Text ) )
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		public Span LastUserSpan
-		{
-			get 
-			{
-				//There must be a prompt
-				if( Spans.Count == 0 )
-				{
-					throw new Exception( "Line is missing a prompt" );
-				}
-
-				//Add an input span if there is not one
-				if( Spans.Count == 1 )
-				{
-					Spans.Add( new InputSpan( "" ) );
-				}
-
-				return Spans[ Spans.Count - 1 ];
-			}
-		}
-
+		
 		public List<Span> Spans { get; private set; }
 	}
 }

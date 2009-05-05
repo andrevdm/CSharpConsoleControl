@@ -97,7 +97,7 @@ namespace WinFormsTerminalControl
 			return Color.FromArgb( colour.Alpha, colour.Red, colour.Green, colour.Blue );
 		}
 
-		public TerminalCore.Model.SizeD MeasureText( string text )
+		public SizeD MeasureText( string text )
 		{
 			using( var g = CreateGraphics() )
 			{
