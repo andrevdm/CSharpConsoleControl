@@ -215,7 +215,6 @@ namespace TerminalCore
 			int len = 0;
 
 			CachedLine cachedLine = null;
-			bool firstLine = true;
 
 			foreach( var origSpan in line.Spans )
 			{
@@ -223,15 +222,7 @@ namespace TerminalCore
 				{
 					cachedLine = new CachedLine();
 					line.CachedLines.Add( cachedLine );
-
-					if( !firstLine )
-					{
-						cachedLine.Spans.Add( PromptWrap );
-						len += PromptWrap.Text.Length;
-					}
 				}
-
-				firstLine = false;
 
 				if( (origSpan.Text.Length + len) < CharsPerLine )
 				{
