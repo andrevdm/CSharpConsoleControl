@@ -11,7 +11,7 @@ namespace TerminalCore
 		private readonly LinkedList<UserLine> m_lines = new LinkedList<UserLine>();
 		private UserLine m_currentLine;
 
-		public TerminalController( ITerminalView view, SizeD charSize, int charsPerLine, PromptSpan prompt, PromptWrapSpan promptWrap )
+		public TerminalController( ITerminalView view, SizeD charSize, int charsPerLine, Span prompt, Span promptWrap )
 			: this( view, charSize, charsPerLine, prompt, promptWrap, Colours.White, Colours.Black )
 		{
 		}
@@ -20,8 +20,8 @@ namespace TerminalCore
 			ITerminalView view,
 			SizeD charSize,
 			int charsPerLine,
-			PromptSpan prompt,
-			PromptWrapSpan promptWrap,
+			Span prompt,
+			Span promptWrap,
 			Colour defaultForegroundColour,
 			Colour defaultBackgroundColour )
 		{
@@ -177,7 +177,7 @@ namespace TerminalCore
 						spanText = spanText.Substring( Math.Min( CharsPerLine - len, spanText.Length ) );
 						len = 0;
 
-						var cachedSpan = new Span( origSpan.SpanType, substring, origSpan.ForegroundColour, origSpan.BackgroundColour );
+						var cachedSpan = new Span( substring, origSpan.ForegroundColour, origSpan.BackgroundColour );
 						cachedLine.Spans.Add( cachedSpan );
 
 						if( spanText.Length > 0 )
@@ -195,8 +195,8 @@ namespace TerminalCore
 
 		public int CharsPerLine { get; set; }
 		public SizeD CharSize { get; private set; }
-		private PromptSpan Prompt { get; set; }
-		private PromptWrapSpan PromptWrap { get; set; }
+		private Span Prompt { get; set; }
+		private Span PromptWrap { get; set; }
 		public Colour DefaultForegroundColour { get; private set; }
 		public Colour DefaultBackgroundColour { get; private set; }
 	}

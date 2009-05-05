@@ -51,7 +51,6 @@
     <Compile Include="Model\Line.cs" />
     <Compile Include="Model\SizeD.cs" />
     <Compile Include="Model\Span.cs" />
-    <Compile Include="Model\SpanType.cs" />
     <Compile Include="Model\UserLine.cs" />
     <Compile Include="TerminalController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -40,8 +40,8 @@ namespace WpfTerminalControl
 		{
 			base.OnInitialized( e );
 			
-			var prompt = new PromptSpan( "test> ", Colours.Blue );
-			var promptWrap = new PromptWrapSpan( "    > ", Colours.Blue );
+			var prompt = new Span( "test> ", Colours.Blue );
+			var promptWrap = new Span( "    > ", Colours.Blue );
 			int charsPerLine = int.MaxValue;
 			m_terminal = new TerminalController( this, new SizeD( m_charWidth, m_charHeight ), charsPerLine, prompt, promptWrap );
 

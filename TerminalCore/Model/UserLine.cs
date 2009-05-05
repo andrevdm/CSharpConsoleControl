@@ -36,7 +36,7 @@ namespace TerminalCore.Model
 				//Add an input span if there is not one
 				if( Spans.Count == 1 )
 				{
-					Spans.Add( new InputSpan( "" ) );
+					Spans.Add( new Span( "" ) );
 				}
 
 				return Spans[ Spans.Count - 1 ];
