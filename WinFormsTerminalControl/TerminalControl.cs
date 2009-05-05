@@ -46,6 +46,46 @@ namespace WinFormsTerminalControl
 			}
 		}
 
+		protected override void OnKeyDown( KeyEventArgs e )
+		{
+			base.OnKeyDown( e );
+
+			switch( e.KeyCode )
+			{
+				case Keys.End:
+					m_terminal.ControlKeyPressed( TerminalKey.End );
+					break;
+
+				case Keys.Home:
+					m_terminal.ControlKeyPressed( TerminalKey.Home );
+					break;
+
+				case Keys.Left:
+					m_terminal.ControlKeyPressed( TerminalKey.Left );
+					break;
+
+				case Keys.Up:
+					m_terminal.ControlKeyPressed( TerminalKey.Up );
+					break;
+
+				case Keys.Right:
+					m_terminal.ControlKeyPressed( TerminalKey.Right );
+					break;
+
+				case Keys.Down:
+					m_terminal.ControlKeyPressed( TerminalKey.Down );
+					break;
+
+				case Keys.Insert:
+					m_terminal.ControlKeyPressed( TerminalKey.Insert );
+					break;
+
+				case Keys.Delete:
+					m_terminal.ControlKeyPressed( TerminalKey.Delete );
+					break;
+			}
+		}
+
 		protected override void OnKeyPress( KeyPressEventArgs e )
 		{
 			base.OnKeyPress( e );

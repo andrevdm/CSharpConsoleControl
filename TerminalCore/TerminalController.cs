@@ -135,6 +135,36 @@ namespace TerminalCore
 			}
 		}
 
+		public void ControlKeyPressed( TerminalKey key )
+		{
+			switch( key )
+			{
+				case TerminalKey.End:
+					break;
+
+				case TerminalKey.Home:
+					break;
+
+				case TerminalKey.Left:
+					break;
+
+				case TerminalKey.Up:
+					break;
+
+				case TerminalKey.Right:
+					break;
+
+				case TerminalKey.Down:
+					break;
+
+				case TerminalKey.Insert:
+					break;
+
+				case TerminalKey.Delete:
+					break;
+			}
+		}
+
 		public void WriteOutput( string text )
 		{
 			WriteOutput( text, DefaultForegroundColour, DefaultBackgroundColour );

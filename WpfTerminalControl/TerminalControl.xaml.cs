@@ -43,8 +43,7 @@ namespace WpfTerminalControl
 			var prompt = new Span( "test> ", Colours.Blue );
 			var promptWrap = new Span( "      ", Colours.Blue );
 			var promptOutput = new Span( " ", Colours.Blue );
-			int charsPerLine = int.MaxValue;
-			m_terminal = new TerminalController( this, new SizeD( m_charWidth, m_charHeight ), charsPerLine, prompt, promptWrap, promptOutput );
+			m_terminal = new TerminalController( this, new SizeD( m_charWidth, m_charHeight ), int.MaxValue, prompt, promptWrap, promptOutput );
 
 			Background = new SolidColorBrush( ColorFromSpanColour( m_terminal.DefaultBackgroundColour ) );
 			Foreground = new SolidColorBrush( ColorFromSpanColour( m_terminal.DefaultForegroundColour ) );
@@ -78,6 +77,41 @@ namespace WpfTerminalControl
 		protected override void OnPreviewKeyDown( KeyEventArgs e )
 		{
 			base.OnPreviewKeyDown( e );
+
+			switch( e.Key )
+			{
+				case Key.End:
+					Terminal.ControlKeyPressed( TerminalKey.End );
+					break;
+
+				case Key.Home:
+					Terminal.ControlKeyPressed( TerminalKey.Home );
+					break;
+
+				case Key.Left:
+					Terminal.ControlKeyPressed( TerminalKey.Left );
+					break;
+
+				case Key.Up:
+					Terminal.ControlKeyPressed( TerminalKey.Up );
+					break;
+
+				case Key.Right:
+					Terminal.ControlKeyPressed( TerminalKey.Right );
+					break;
+
+				case Key.Down:
+					Terminal.ControlKeyPressed( TerminalKey.Down);
+					break;
+
+				case Key.Insert:
+					Terminal.ControlKeyPressed( TerminalKey.Insert );
+					break;
+
+				case Key.Delete:
+					Terminal.ControlKeyPressed( TerminalKey.Delete );
+					break;
+			}
 		}
 
 		private void m_scrollbar_ValueChanged( object sender, RoutedPropertyChangedEventArgs<double> e )
