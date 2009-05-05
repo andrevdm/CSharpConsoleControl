@@ -30,7 +30,7 @@ namespace WinFormsTerminalControl
 			MeasureFont();
 
 			var prompt = new Span( "test> ", Colours.Blue );
-			var promptWrap = new Span( "    > ", Colours.Blue );
+			var promptWrap = new Span( "      ", Colours.Blue );
 			int charsPerLine = (int)(Width / m_charWidth);
 			m_terminal = new TerminalController( this, new SizeD( m_charWidth, m_charHeight ), charsPerLine, prompt, promptWrap );
 		}
