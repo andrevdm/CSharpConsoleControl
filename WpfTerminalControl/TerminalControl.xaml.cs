@@ -148,5 +148,7 @@ namespace WpfTerminalControl
 		{
 			return Color.FromArgb( spanColour.Alpha, spanColour.Red, spanColour.Green, spanColour.Blue );
 		}
-	}
+
+		public TerminalController Terminal { get { return m_terminal; } }
+		}
 }

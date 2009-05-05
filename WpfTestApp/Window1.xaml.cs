@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TerminalCore;
 
 namespace WpfTestApp
 {
@@ -22,6 +23,16 @@ namespace WpfTestApp
 		public Window1()
 		{
 			InitializeComponent();
+
+			Terminal.LineEntered += Terminal_LineEntered;
 		}
+
+		private void Terminal_LineEntered( object sender, LineEventArgs e )
+		{
+			Terminal.WriteOutput( "Echo\r\n'" + e.Line + "\n'" );
+			m_terminal.InvalidateVisual();
+		}
+
+		public TerminalController Terminal { get { return m_terminal.Terminal; } }
 	}
 }

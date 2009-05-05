@@ -31,5 +31,6 @@ namespace TerminalCore.Model
 		public Colour BackgroundColour { get; private set; }
 		public Colour ForegroundColour { get; private set; }
 		public string Text { get; set; }
+		public bool IsPrompt { get; set; }
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using TerminalCore.Model;
+using System.Text.RegularExpressions;
 
 namespace TerminalCore
 {
@@ -63,6 +64,9 @@ namespace TerminalCore
 			DefaultBackgroundColour = defaultBackgroundColour;
 			DefaultForegroundColour = defaultForegroundColour;
 
+			Prompt.IsPrompt = true;
+			promptWrap.IsPrompt = true;
+
 			ClearCurrentLine();
 		}
 
@@ -111,6 +115,27 @@ namespace TerminalCore
 					AppendCharToCurrentSpan( c );
 					break;
 			}
+		}
+
+		public void WriteOutput( string text )
+		{
+			WriteOutput( text, DefaultForegroundColour, DefaultBackgroundColour );
+		}
+
+		public void WriteOutput( string text, Colour foregroundColour, Colour backgroundColour )
+		{
+			var outputLines = Regex.Split( text, "(\r\n)|\r|\n" );
+
+			foreach( string outputLine in outputLines )
+			{
+				var line = new UserLine();
+				var span = new Span( outputLine, foregroundColour, backgroundColour );
+				line.Spans.Add( span );
+
+				m_lines.AddFirst( line );
+			}
+
+			m_currentLine = new UserLine();
 		}
 
 		private void ClearCurrentLine()

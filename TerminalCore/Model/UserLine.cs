@@ -12,8 +12,13 @@ namespace TerminalCore.Model
 
 		public bool HasUserText()
 		{
-			for( int i = 1; i < Spans.Count; ++ i )
+			for( int i = 0; i < Spans.Count; ++ i )
 			{
+				if( (i == 0) && (Spans[ i ].IsPrompt) )
+				{
+					continue;
+				}
+
 				if( !string.IsNullOrEmpty( Spans[ i ].Text ) )
 				{
 					return true;
