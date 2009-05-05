@@ -11,14 +11,15 @@ namespace TerminalCore
 		private readonly LinkedList<Line> m_lines = new LinkedList<Line>();
 		private Line m_currentLine;
 
-		public TerminalController( ITerminalView view, Span prompt )
-			: this( view, prompt, Colours.White, Colours.Black )
+		public TerminalController( ITerminalView view, PromptSpan prompt, PromptWrapSpan promptWrap )
+			: this( view, prompt, promptWrap, Colours.White, Colours.Black )
 		{
 		}
 
 		public TerminalController(
 			ITerminalView view,
-			Span prompt,
+			PromptSpan prompt,
+			PromptWrapSpan promptWrap,
 			Colour defaultForegroundColour,
 			Colour defaultBackgroundColour )
 		{
@@ -47,6 +48,7 @@ namespace TerminalCore
 			#endregion
 
 			Prompt = prompt;
+			PromptWrap = promptWrap;
 			DefaultBackgroundColour = defaultBackgroundColour;
 			DefaultForegroundColour = defaultForegroundColour;
 
@@ -63,7 +65,7 @@ namespace TerminalCore
 			var p = new Line();
 			p.Spans.Add( Prompt );
 
-			p.Spans.Add( new Span(
+			p.Spans.Add( new InputSpan(
 								"abcdefg",
 								new Colour( 0, 0, 255 ),
 								new Colour( 255, 255, 255 ) ) );
@@ -73,12 +75,12 @@ namespace TerminalCore
 			p = new Line();
 			p.Spans.Add( Prompt );
 
-			p.Spans.Add( new Span(
+			p.Spans.Add( new InputSpan(
 								"abcdefg",
 								new Colour( 0, 255, 0 ),
 								new Colour( 100, 100, 100 ) ) );
 
-			p.Spans.Add( new Span(
+			p.Spans.Add( new InputSpan(
 								"hij dd",
 								new Colour( 0, 255, 0 ),
 								new Colour( 0, 0, 0 ) ) );
@@ -137,7 +139,8 @@ namespace TerminalCore
 			ClearCurrentLine();
 		}
 
-		private Span Prompt { get; set; }
+		private PromptSpan Prompt { get; set; }
+		private PromptWrapSpan PromptWrap { get; set; }
 		public Colour DefaultForegroundColour { get; private set; }
 		public Colour DefaultBackgroundColour { get; private set; }
 	}

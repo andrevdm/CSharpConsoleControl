@@ -22,8 +22,9 @@ namespace WinFormsTerminalControl
 			SetStyle( ControlStyles.UserPaint, true );
 			SetStyle( ControlStyles.AllPaintingInWmPaint, true );
 
-			var prompt = new Span( "test> ", Colours.Blue );
-			m_terminal = new TerminalController( this, prompt );
+			var prompt = new PromptSpan( "test> ", Colours.Blue );
+			var promptWrap = new PromptWrapSpan( "    > ", Colours.Blue );
+			m_terminal = new TerminalController( this, prompt, promptWrap );
 		}
 
 		protected override void OnKeyPress( KeyPressEventArgs e )

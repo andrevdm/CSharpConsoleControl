@@ -29,13 +29,13 @@ namespace TerminalCore.Model
 				//There must be a prompt
 				if( Spans.Count == 0 )
 				{
-					Spans.Add( new Span( ">" ) );
+					Spans.Add( new PromptSpan( ">" ) );
 				}
 
-				//Add the user span if there is not one
+				//Add an input span if there is not one
 				if( Spans.Count == 1 )
 				{
-					Spans.Add( new Span( "" ) );
+					Spans.Add( new InputSpan( "" ) );
 				}
 
 				return Spans[ Spans.Count - 1 ];
