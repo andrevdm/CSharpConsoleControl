@@ -14,8 +14,8 @@ namespace TerminalCore
 		private readonly LinkedList<UserLine> m_lines = new LinkedList<UserLine>();
 		private UserLine m_currentLine;
 
-		public TerminalController( ITerminalView view, SizeD charSize, int charsPerLine, Span prompt, Span promptWrap )
-			: this( view, charSize, charsPerLine, prompt, promptWrap, Colours.White, Colours.Black )
+		public TerminalController( ITerminalView view, SizeD charSize, int charsPerLine, Span prompt, Span promptWrap, Span promptOutput )
+			: this( view, charSize, charsPerLine, prompt, promptWrap, promptOutput, Colours.White, Colours.Black )
 		{
 		}
 
@@ -25,6 +25,7 @@ namespace TerminalCore
 			int charsPerLine,
 			Span prompt,
 			Span promptWrap,
+			Span promptOutput,
 			Colour defaultForegroundColour,
 			Colour defaultBackgroundColour )
 		{
@@ -46,6 +47,16 @@ namespace TerminalCore
 				throw new ArgumentNullException( "prompt" );
 			}
 
+			if( promptWrap == null )
+			{
+				throw new ArgumentNullException( "promptWrap" );
+			}
+
+			if( promptOutput == null )
+			{
+				throw new ArgumentNullException( "promptOutput" );
+			}
+
 			if( defaultBackgroundColour == null )
 			{
 				throw new ArgumentNullException( "defaultBackgroundColour" );
@@ -61,11 +72,13 @@ namespace TerminalCore
 			CharSize = charSize;
 			CharsPerLine = charsPerLine;
 			PromptWrap = promptWrap;
+			PromptOutput = promptOutput;
 			DefaultBackgroundColour = defaultBackgroundColour;
 			DefaultForegroundColour = defaultForegroundColour;
 
 			Prompt.IsPrompt = true;
 			promptWrap.IsPrompt = true;
+			promptOutput.IsPrompt = true;
 
 			ClearCurrentLine();
 		}
@@ -129,6 +142,10 @@ namespace TerminalCore
 			foreach( string outputLine in outputLines )
 			{
 				var line = new UserLine();
+				line.IsOutput = true;
+
+				line.Spans.Add( PromptOutput );
+
 				var span = new Span( outputLine, foregroundColour, backgroundColour );
 				line.Spans.Add( span );
 
@@ -226,6 +243,7 @@ namespace TerminalCore
 		public SizeD CharSize { get; private set; }
 		private Span Prompt { get; set; }
 		private Span PromptWrap { get; set; }
+		private Span PromptOutput { get; set; }
 		public Colour DefaultForegroundColour { get; private set; }
 		public Colour DefaultBackgroundColour { get; private set; }
 	}

@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TerminalCore;
+using TerminalCore.Model;
 
 namespace WpfTestApp
 {
@@ -29,7 +30,7 @@ namespace WpfTestApp
 
 		private void Terminal_LineEntered( object sender, LineEventArgs e )
 		{
-			Terminal.WriteOutput( "Echo\r\n'" + e.Line + "\n'" );
+			Terminal.WriteOutput( "Echo\r\n'" + e.Line + "\n'", Colours.Green, Terminal.DefaultBackgroundColour );
 			m_terminal.InvalidateVisual();
 		}
 
