@@ -168,7 +168,7 @@ namespace TerminalCore
 
 		private void AppendCharToCurrentSpan( char c )
 		{
-			if( char.IsLetterOrDigit( c ) || char.IsWhiteSpace( c ) )
+			if( !char.IsControl( c ) /*char.IsLetterOrDigit( c ) || char.IsWhiteSpace( c )*/ )
 			{
 				m_currentLine.LastUserSpan.Text += c;
 				m_currentLine.CachedLines = null;
