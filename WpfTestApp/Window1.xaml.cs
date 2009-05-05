@@ -20,6 +20,7 @@ namespace WpfTestApp
 			InitializeComponent();
 
 			Terminal.LineEntered += Terminal_LineEntered;
+			Terminal.ControlCharEntered += Terminal_ControlCharEntered;
 		}
 
 		protected override void OnInitialized( EventArgs e )
@@ -47,6 +48,16 @@ namespace WpfTestApp
 				Terminal.WriteOutput( ex.Message, Colours.Red );
 			}
 		}
+
+		private void Terminal_ControlCharEntered( object sender, CharEventArgs e )
+		{
+			if( e.Char == '\t' )
+			{
+				//m_boo.SuggestCodeCompletion(  )
+				//TODO suggest completion
+			}
+		}
+
 
 		private TerminalController Terminal { get { return m_terminal.Terminal; } }
 	}

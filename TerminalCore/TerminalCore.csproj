@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CharEventArgs.cs" />
     <Compile Include="ITerminalView.cs" />
     <Compile Include="LineEventArgs.cs" />
     <Compile Include="Model\CachedLine.cs" />

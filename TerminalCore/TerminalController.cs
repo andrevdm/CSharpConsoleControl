@@ -9,6 +9,7 @@ namespace TerminalCore
 	public class TerminalController
 	{
 		public event EventHandler<LineEventArgs> LineEntered = delegate { };
+		public event EventHandler<CharEventArgs> ControlCharEntered = delegate { };
 
 		private readonly ITerminalView m_view;
 		private readonly LinkedList<UserLine> m_lines = new LinkedList<UserLine>();
@@ -116,15 +117,15 @@ namespace TerminalCore
 		{
 			switch( c )
 			{
-				case (char)13:
+				case (char)13: //return
 					ReturnPressed();
 					break;
 
-				case (char)27:
+				case (char)27: //escape
 					ClearCurrentLine();
 					break;
 
-				case '\b':
+				case '\b': //backspace
 					BackspacePressed();
 					break;
 
@@ -176,6 +177,10 @@ namespace TerminalCore
 			{
 				m_currentLine.LastUserSpan.Text += c;
 				m_currentLine.CachedLines = null;
+			}
+			else
+			{
+				ControlCharEntered( this, new CharEventArgs( c ) );
 			}
 		}
 
