@@ -124,6 +124,10 @@ namespace TerminalCore
 					ClearCurrentLine();
 					break;
 
+				case '\b':
+					BackspacePressed();
+					break;
+
 				default:
 					AppendCharToCurrentSpan( c );
 					break;
@@ -172,6 +176,17 @@ namespace TerminalCore
 			{
 				m_currentLine.LastUserSpan.Text += c;
 				m_currentLine.CachedLines = null;
+			}
+		}
+
+		private void BackspacePressed()
+		{
+			string text = m_currentLine.LastUserSpan.Text;
+
+			if( text.Length > 0 )
+			{
+				text = text.Substring( 0, text.Length - 1 );
+				m_currentLine.LastUserSpan.Text = text;
 			}
 		}
 
