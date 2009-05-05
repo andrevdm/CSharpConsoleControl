@@ -66,8 +66,12 @@ namespace TerminalCore
 
 		public IEnumerable<Line> GetLines()
 		{
-			foreach( UserLine line in m_lines )
+			LinkedListNode<UserLine> current = m_lines.Last;
+
+			while( current != null )
 			{
+				UserLine line = current.Value;
+
 				if( (line.CachedLines == null) || (line.CachedLines.Count == 0) || (line.CachedWrapAt != CharsPerLine) )
 				{
 					UpdateLineCache( line );
@@ -77,6 +81,8 @@ namespace TerminalCore
 				{
 					yield return cachedLine;
 				}
+
+				current = current.Previous;
 			}
 
 			UpdateLineCache( m_currentLine );
@@ -91,7 +97,7 @@ namespace TerminalCore
 		{
 			switch( c )
 			{
-				case (char)0x13:
+				case (char)13:
 					ReturnPressed();
 					break;
 
