@@ -26,8 +26,9 @@ namespace WpfTerminalControl
 
 			IsTabStop = true;
 
-			var prompt = new Span( "test> ", Colours.Blue );
-			m_terminal = new TerminalController( this, prompt );
+			var prompt = new PromptSpan( "test> ", Colours.Blue );
+			var promptWrap = new PromptWrapSpan( "    > ", Colours.Blue );
+			m_terminal = new TerminalController( this, prompt, promptWrap );
 
 			m_culture = CultureInfo.GetCultureInfo( "en-us" );
 			m_typeface = new Typeface( "Courier New" );

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TerminalCore.Model
 {
@@ -29,7 +30,7 @@ namespace TerminalCore.Model
 				//There must be a prompt
 				if( Spans.Count == 0 )
 				{
-					Spans.Add( new PromptSpan( ">" ) );
+					throw new Exception( "Line is missing a prompt" );
 				}
 
 				//Add an input span if there is not one
