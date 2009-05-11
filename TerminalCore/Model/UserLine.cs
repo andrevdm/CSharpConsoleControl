@@ -10,6 +10,24 @@ namespace TerminalCore.Model
 			CachedWrapAt = -1;
 		}
 
+		public UserLine( UserLine copy )
+		{
+			#region param checks
+			if( copy == null )
+			{
+				throw new ArgumentNullException( "copy" );
+			}
+			#endregion
+
+			CachedWrapAt = -1;
+			IsOutput = copy.IsOutput;
+
+			foreach( var span in copy.Spans )
+			{
+				Spans.Add( new Span( span ) );
+			}
+		}
+
 		public bool HasUserText()
 		{
 			for( int i = 0; i < Spans.Count; ++ i )

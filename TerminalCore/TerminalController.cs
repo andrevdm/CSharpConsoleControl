@@ -14,6 +14,7 @@ namespace TerminalCore
 		private readonly ITerminalView m_view;
 		private readonly LinkedList<UserLine> m_lines = new LinkedList<UserLine>();
 		private UserLine m_currentLine;
+		private LinkedListNode<UserLine> m_historyItem = null;
 
 		public TerminalController( ITerminalView view, SizeD charSize, int charsPerLine, Span prompt, Span promptWrap, Span promptOutput )
 			: this( view, charSize, charsPerLine, prompt, promptWrap, promptOutput, Colours.White, Colours.Black )
@@ -115,6 +116,8 @@ namespace TerminalCore
 
 		public void CharTyped( char c )
 		{
+			ResetHistoryNavigation();
+
 			switch( c )
 			{
 				case (char)13: //return
@@ -139,30 +142,105 @@ namespace TerminalCore
 		{
 			switch( key )
 			{
-				case TerminalKey.End:
-					break;
-
-				case TerminalKey.Home:
-					break;
-
-				case TerminalKey.Left:
-					break;
-
 				case TerminalKey.Up:
-					break;
-
-				case TerminalKey.Right:
+					NavigationUpInHistory();
 					break;
 
 				case TerminalKey.Down:
+					NavigationDownInHistory();
+					break;
+
+				case TerminalKey.End:
+					ResetHistoryNavigation();
+					break;
+
+				case TerminalKey.Home:
+					ResetHistoryNavigation();
+					break;
+
+				case TerminalKey.Left:
+					ResetHistoryNavigation();
+					break;
+
+				case TerminalKey.Right:
+					ResetHistoryNavigation();
 					break;
 
 				case TerminalKey.Insert:
+					ResetHistoryNavigation();
 					break;
 
 				case TerminalKey.Delete:
+					ResetHistoryNavigation();
+					break;
+
+				default:
+					ResetHistoryNavigation();
 					break;
 			}
+		}
+
+		private void ResetHistoryNavigation()
+		{
+			m_historyItem = null;
+		}
+
+		private void NavigationDownInHistory()
+		{
+			if( m_historyItem == null )
+			{
+				return;
+			}
+
+			LinkedListNode<UserLine> at = m_historyItem.Previous;
+
+			if( at == null )
+			{
+				return;
+			}
+
+			while( at.Value.IsOutput )
+			{
+				at = at.Previous;
+
+				if( at == null )
+				{
+					return;
+				}
+			}
+
+			m_historyItem = at;
+			ShowHistoryItem();
+		}
+
+		private void NavigationUpInHistory()
+		{
+			LinkedListNode<UserLine> at = (m_historyItem == null) ? 
+				m_lines.First : 
+				m_historyItem.Next;
+
+			if( at == null )
+			{
+				return;
+			}
+
+			while( at.Value.IsOutput )
+			{
+				at = at.Next;
+
+				if( at == null )
+				{
+					return;
+				}
+			}
+
+			m_historyItem = at;
+			ShowHistoryItem();
+		}
+
+		private void ShowHistoryItem()
+		{
+			m_currentLine = new UserLine( m_historyItem.Value );
 		}
 
 		public void WriteOutput( string text )
@@ -177,6 +255,7 @@ namespace TerminalCore
 
 		public void WriteOutput( string text, Colour foregroundColour, Colour backgroundColour )
 		{
+			ResetHistoryNavigation();
 			var outputLines = Regex.Split( text, "(\r\n)|\r|\n" );
 
 			foreach( string outputLine in outputLines )

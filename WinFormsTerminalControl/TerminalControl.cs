@@ -7,6 +7,7 @@ using TerminalCore;
 using TerminalCore.Model;
 
 using SizeF = System.Drawing.SizeF;
+using System.Text;
 
 namespace WinFormsTerminalControl
 {
@@ -38,10 +39,12 @@ namespace WinFormsTerminalControl
 
 		private void MeasureFont()
 		{
+			string measure = new string( '0', 3000 );
+
 			using( Graphics g = CreateGraphics() )
 			{
-				SizeF size = MeasureString( g, "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", Font );
-				m_charWidth = size.Width / 400F;
+				SizeF size = MeasureString( g, measure, Font );
+				m_charWidth = size.Width / (float)measure.Length;
 				m_charHeight = size.Height;
 			}
 		}
@@ -86,6 +89,8 @@ namespace WinFormsTerminalControl
 					m_terminal.ControlKeyPressed( TerminalKey.Delete, state );
 					break;
 			}
+
+			Invalidate( true );
 		}
 
 		protected override void OnKeyPress( KeyPressEventArgs e )

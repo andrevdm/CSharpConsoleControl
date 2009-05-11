@@ -28,6 +28,21 @@ namespace TerminalCore.Model
 			BackgroundColour = backgroundColour;
 		}
 
+		public Span( Span copy )
+		{
+			#region param checks
+			if( copy == null )
+			{
+				throw new ArgumentNullException( "copy" );
+			}	
+			#endregion
+
+			Text = copy.Text;
+			IsPrompt = copy.IsPrompt;
+			BackgroundColour = copy.BackgroundColour;
+			ForegroundColour = copy.ForegroundColour;
+		}
+
 		public Colour BackgroundColour { get; private set; }
 		public Colour ForegroundColour { get; private set; }
 		public string Text { get; set; }

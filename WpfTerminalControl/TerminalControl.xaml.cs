@@ -114,6 +114,8 @@ namespace WpfTerminalControl
 					Terminal.ControlKeyPressed( TerminalKey.Delete, state );
 					break;
 			}
+
+			m_terminalCanvas.InvalidateVisual();
 		}
 
 		private void m_scrollbar_ValueChanged( object sender, RoutedPropertyChangedEventArgs<double> e )
