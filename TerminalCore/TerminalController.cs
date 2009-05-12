@@ -14,7 +14,9 @@ namespace TerminalCore
 		private readonly ITerminalView m_view;
 		private readonly LinkedList<UserLine> m_lines = new LinkedList<UserLine>();
 		private UserLine m_currentLine;
-		private LinkedListNode<UserLine> m_historyItem = null;
+		private LinkedListNode<UserLine> m_historyItem;
+		private int m_inputColumn;
+		private int m_maxHistoryItems = 300;
 
 		public TerminalController( ITerminalView view, SizeD charSize, int charsPerLine, Span prompt, Span promptWrap, Span promptOutput )
 			: this( view, charSize, charsPerLine, prompt, promptWrap, promptOutput, Colours.White, Colours.Black )
@@ -126,6 +128,7 @@ namespace TerminalCore
 
 				case (char)27: //escape
 					ClearCurrentLine();
+					ResetColumn();
 					break;
 
 				case '\b': //backspace
@@ -133,6 +136,7 @@ namespace TerminalCore
 					break;
 
 				default:
+					ResetColumn();
 					AppendCharToCurrentSpan( c );
 					break;
 			}
@@ -143,26 +147,32 @@ namespace TerminalCore
 			switch( key )
 			{
 				case TerminalKey.Up:
+					ResetColumn();
 					NavigationUpInHistory();
 					break;
 
 				case TerminalKey.Down:
+					ResetColumn();
 					NavigationDownInHistory();
 					break;
 
 				case TerminalKey.End:
+					MoveToEnd();
 					ResetHistoryNavigation();
 					break;
 
 				case TerminalKey.Home:
+					MoveToBegining();
 					ResetHistoryNavigation();
 					break;
 
 				case TerminalKey.Left:
+					MoveLeft();
 					ResetHistoryNavigation();
 					break;
 
 				case TerminalKey.Right:
+					MoveRight();
 					ResetHistoryNavigation();
 					break;
 
@@ -178,6 +188,31 @@ namespace TerminalCore
 					ResetHistoryNavigation();
 					break;
 			}
+		}
+
+		private void MoveToBegining()
+		{
+			//TODO
+		}
+
+		private void MoveToEnd()
+		{
+			//TODO
+		}
+
+		private void ResetColumn()
+		{
+			m_inputColumn = 0;
+		}
+
+		private void MoveLeft()
+		{
+			//TODO m_inputColumn++;
+		}
+
+		private void MoveRight()
+		{
+			//TODO m_inputColumn--;
 		}
 
 		private void ResetHistoryNavigation()
@@ -267,6 +302,8 @@ namespace TerminalCore
 
 				var span = new Span( outputLine, foregroundColour, backgroundColour );
 				line.Spans.Add( span );
+
+				UpdateMaxHistoryItems();
 
 				m_lines.AddFirst( line );
 			}
@@ -361,6 +398,24 @@ namespace TerminalCore
 						}
 					}
 				}
+			}
+		}
+
+		private void UpdateMaxHistoryItems()
+		{
+			while( (m_lines.Count > 0) && (m_lines.Count > m_maxHistoryItems) )
+			{
+				m_lines.RemoveLast();
+			}
+		}
+
+		public int MaxHistoryItems
+		{
+			get { return m_maxHistoryItems; }
+			set
+			{
+				m_maxHistoryItems = value;
+				UpdateMaxHistoryItems();
 			}
 		}
 
