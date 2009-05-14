@@ -49,9 +49,9 @@ namespace WinFormsTerminalControl
 			}
 		}
 
-		protected override void OnKeyDown( KeyEventArgs e )
+		protected override void OnKeyUp( KeyEventArgs e )
 		{
-			base.OnKeyDown( e );
+			base.OnKeyUp( e );
 
 			var state = TerminalKeyModifier.None;
 
