@@ -105,7 +105,7 @@ namespace WinFormsTerminalControl
 		{
 			float top = 0;
 
-			foreach( var line in m_terminal.GetLines() )
+			foreach( var line in m_terminal.GetLinesToDrawOnCurrentPage( (int)(Height / m_charHeight) ) )
 			{
 				float left = 0;
 				float maxHeight = 0;

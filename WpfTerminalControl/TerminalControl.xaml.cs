@@ -146,7 +146,7 @@ namespace WpfTerminalControl
 
 			double top = 0;
 
-			foreach( Line line in m_terminal.GetLines() )
+			foreach( Line line in m_terminal.GetLinesToDrawOnCurrentPage( (int)(m_terminalCanvas.ActualHeight / m_charHeight) ) )
 			{
 				double left = 0;
 				double maxHeight = 0;

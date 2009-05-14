@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using TerminalCore.Model;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace TerminalCore
 {
@@ -87,32 +89,52 @@ namespace TerminalCore
 			ClearCurrentLine();
 		}
 
-		public IEnumerable<Line> GetLines()
+		public IEnumerable<Line> GetLinesToDrawOnCurrentPage( int rowsOnPage )
 		{
-			LinkedListNode<UserLine> current = m_lines.Last;
+			return GetLinesToDrawOnCurrentPageReverse( rowsOnPage ).Reverse();
+		}
 
-			while( current != null )
+		private IEnumerable<Line> GetLinesToDrawOnCurrentPageReverse( int rowsOnPage )
+		{
+			int rowsReturned = 0;
+
+			LinkedListNode<UserLine> current = m_lines.First;
+
+			UpdateLineCache( m_currentLine );
+
+			foreach( var cachedLine in m_currentLine.CachedLines )
+			{
+				if( rowsReturned >= rowsOnPage )
+				{
+					break;
+				}
+
+				yield return cachedLine;
+				rowsReturned++;
+			}
+
+			while( (current != null) && (rowsReturned < rowsOnPage) )
 			{
 				UserLine line = current.Value;
 
 				if( (line.CachedLines == null) || (line.CachedLines.Count == 0) || (line.CachedWrapAt != CharsPerLine) )
 				{
 					UpdateLineCache( line );
+					Debug.Assert( line.CachedLines != null );
 				}
 
 				foreach( var cachedLine in line.CachedLines )
 				{
+					if( rowsReturned >= rowsOnPage )
+					{
+						break;
+					}
+
 					yield return cachedLine;
+					rowsReturned++;
 				}
 
-				current = current.Previous;
-			}
-
-			UpdateLineCache( m_currentLine );
-
-			foreach( var cachedLine in m_currentLine.CachedLines )
-			{
-				yield return cachedLine;
+				current = current.Next;
 			}
 		}
 

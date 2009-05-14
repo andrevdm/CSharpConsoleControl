@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
 
+using Boo.Lang.Compiler;
+
 using TerminalCore;
 using TerminalCore.Model;
 
@@ -36,11 +38,18 @@ namespace WpfTestApp
 		{
 			try
 			{
-				m_boo.Eval( e.Line );
+				CompilerContext ctx = m_boo.Eval( e.Line );
 
-				if( m_boo.LastValue != null )
+				if( ctx.Errors.Count == 0 )
 				{
-					Terminal.WriteOutput( m_boo.LastValue.ToString(), Colours.Green );
+					if( m_boo.LastValue != null )
+					{
+						Terminal.WriteOutput( m_boo.LastValue.ToString(), Colours.Green );
+					}
+				}
+				else
+				{
+					Terminal.WriteOutput( ctx.Errors[ 0 ].Message, Colours.Red );
 				}
 			}
 			catch( Exception ex )
