@@ -7,9 +7,9 @@ namespace TerminalCore
 {
 	public class CharEventArgs : EventArgs
 	{
-		public CharEventArgs( char c )
+		public CharEventArgs( char character )
 		{
-			Char = c;
+			Char = character;
 		}
 
 		public Char Char { get; private set; }

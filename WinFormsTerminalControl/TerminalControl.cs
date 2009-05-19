@@ -53,7 +53,7 @@ namespace WinFormsTerminalControl
 		{
 			base.OnKeyUp( e );
 
-			var state = TerminalKeyModifier.None;
+			var state = TerminalKeyModifiers.None;
 
 			switch( e.KeyCode )
 			{

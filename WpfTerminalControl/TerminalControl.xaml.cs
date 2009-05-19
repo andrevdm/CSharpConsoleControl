@@ -18,7 +18,7 @@ namespace WpfTerminalControl
 		private readonly Typeface m_typeface;
 		private readonly CultureInfo m_culture;
 		private TerminalController m_terminal;
-		private const int m_fontSize = 12;
+		private const int TerminalFontSize = 12;
 		private readonly double m_charWidth;
 		private readonly double m_charHeight;
 
@@ -56,7 +56,7 @@ namespace WpfTerminalControl
 									m_culture,
 									FlowDirection.LeftToRight,
 									m_typeface,
-									m_fontSize,
+									TerminalFontSize,
 									Brushes.Black );
 
 			return new SizeD( formattedText.WidthIncludingTrailingWhitespace, formattedText.Height );
@@ -78,7 +78,7 @@ namespace WpfTerminalControl
 		{
 			base.OnPreviewKeyDown( e );
 
-			var state = TerminalKeyModifier.None;
+			var state = TerminalKeyModifiers.None;
 
 			switch( e.Key )
 			{
@@ -122,18 +122,18 @@ namespace WpfTerminalControl
 		{
 		}
 
-		public void OnHexCanvasRender( object sender, RenderEventArgs e )
+		private void OnHexCanvasRender( object sender, RenderEventArgs e )
 		{
 			Draw( e.DrawingContext );
 		}
 
-		public void OnHexCanvasRenderSizeChanged( object sender, RenderSizeChangedEventArgs e )
+		private void OnHexCanvasRenderSizeChanged( object sender, RenderSizeChangedEventArgs e )
 		{
 			m_terminal.CharsPerLine = (int)(m_terminalCanvas.ActualWidth / m_charWidth);
 			m_terminalCanvas.InvalidateVisual();
 		}
 
-		public void OnHexMouseLeftButtonDown( object sender, MouseButtonEventArgs e )
+		private void OnHexMouseLeftButtonDown( object sender, MouseButtonEventArgs e )
 		{
 			base.OnMouseLeftButtonDown( e );
 
@@ -141,6 +141,11 @@ namespace WpfTerminalControl
 		}
 
 		private void Draw( DrawingContext ctx )
+		{
+			DrawLines( ctx );
+		}
+
+		private void DrawLines( DrawingContext ctx )
 		{
 			ctx.DrawRectangle( Background, null, new Rect( 0, 0, m_terminalCanvas.ActualWidth, m_terminalCanvas.ActualHeight ) );
 
@@ -160,7 +165,7 @@ namespace WpfTerminalControl
 						m_culture,
 						FlowDirection.LeftToRight,
 						m_typeface,
-						m_fontSize,
+						TerminalFontSize,
 						fgBrush );
 
 					if( span.BackgroundColour != null )

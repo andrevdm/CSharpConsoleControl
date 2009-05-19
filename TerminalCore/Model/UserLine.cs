@@ -67,6 +67,6 @@ namespace TerminalCore.Model
 		}
 
 		public int CachedWrapAt{ get; set; }
-		public List<CachedLine> CachedLines { get; set; }
+		public IList<CachedLine> CachedLines { get; set; }
 	}
 }

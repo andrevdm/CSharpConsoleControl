@@ -3,7 +3,7 @@
 namespace TerminalCore
 {
 	[Flags]
-	public enum TerminalKeyModifier
+	public enum TerminalKeyModifiers
 	{
 		None = 0,
 		Control = 1,

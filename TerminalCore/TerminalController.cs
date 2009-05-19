@@ -138,11 +138,11 @@ namespace TerminalCore
 			}
 		}
 
-		public void CharTyped( char c )
+		public void CharTyped( char character )
 		{
 			ResetHistoryNavigation();
 
-			switch( c )
+			switch( character )
 			{
 				case (char)13: //return
 					ReturnPressed();
@@ -159,12 +159,12 @@ namespace TerminalCore
 
 				default:
 					ResetColumn();
-					AppendCharToCurrentSpan( c );
+					AppendCharToCurrentSpan( character );
 					break;
 			}
 		}
 
-		public void ControlKeyPressed( TerminalKey key, TerminalKeyModifier state )
+		public void ControlKeyPressed( TerminalKey key, TerminalKeyModifiers state )
 		{
 			switch( key )
 			{

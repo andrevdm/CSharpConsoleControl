@@ -21,6 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRules>-Microsoft.Performance#CA1822</CodeAnalysisRules>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -46,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharEventArgs.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ITerminalView.cs" />
     <Compile Include="LineEventArgs.cs" />
     <Compile Include="Model\CachedLine.cs" />
@@ -57,7 +60,7 @@
     <Compile Include="TerminalController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TerminalKey.cs" />
-    <Compile Include="TerminalKeyModifier.cs" />
+    <Compile Include="TerminalKeyModifiers.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

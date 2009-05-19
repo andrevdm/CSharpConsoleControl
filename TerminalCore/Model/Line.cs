@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace TerminalCore.Model
 {
@@ -27,7 +28,7 @@ namespace TerminalCore.Model
 			return str.ToString();
 		}
 		
-		public List<Span> Spans { get; private set; }
+		public IList<Span> Spans { get; private set; }
 		public bool IsOutput { get; set; }
 	}
 }
