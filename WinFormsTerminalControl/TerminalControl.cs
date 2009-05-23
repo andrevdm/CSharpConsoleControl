@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Windows.Forms;
 
 using TerminalCore;
 using TerminalCore.Model;
 
 using SizeF = System.Drawing.SizeF;
-using System.Text;
 
 namespace WinFormsTerminalControl
 {
@@ -45,7 +43,7 @@ namespace WinFormsTerminalControl
 			using( Graphics g = CreateGraphics() )
 			{
 				SizeF size = MeasureString( g, measure, Font );
-				m_charWidth = size.Width / (float)measure.Length;
+				m_charWidth = size.Width / measure.Length;
 				m_charHeight = size.Height;
 			}
 		}
@@ -112,7 +110,7 @@ namespace WinFormsTerminalControl
 
 		private void DrawCursor( PaintEventArgs e, CursorPosition position )
 		{
-			using( var brush = new SolidBrush(Color.Yellow) )
+			using( var brush = new SolidBrush( Color.Yellow ) )
 			{
 				e.Graphics.FillRectangle( brush, (float)(position.X * m_charWidth), (float)(position.Y * m_charHeight), m_charWidth, m_charHeight );
 			}
@@ -195,5 +193,7 @@ namespace WinFormsTerminalControl
 			SizeF fontSizeSingle = g.MeasureString( text, font );
 			return new SizeF( fontSizeDouble.Width - fontSizeSingle.Width + 1.0f, fontSizeSingle.Height );
 		}
+
+		public TerminalController Controller { get { return m_terminal; } }
 	}
 }
