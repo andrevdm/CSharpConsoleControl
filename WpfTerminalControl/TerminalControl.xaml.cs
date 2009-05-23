@@ -153,7 +153,7 @@ namespace WpfTerminalControl
 
 		private void DrawCursor( DrawingContext ctx, CursorPosition position )
 		{
-			ctx.DrawRectangle( Brushes.Yellow, null, new Rect( position.X * m_charWidth, position.Y * m_charWidth, m_charWidth, m_charHeight ) );
+			ctx.DrawRectangle( Brushes.Yellow, null, new Rect( position.X * m_charWidth, position.Y * m_charHeight, m_charWidth, m_charHeight ) );
 		}
 
 		private void DrawLines( DrawingContext ctx, IEnumerable<Line> lines )

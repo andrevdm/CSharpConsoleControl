@@ -114,7 +114,7 @@ namespace WinFormsTerminalControl
 		{
 			using( var brush = new SolidBrush(Color.Yellow) )
 			{
-				e.Graphics.FillRectangle( brush, (float)(position.X * m_charWidth), (float)(position.Y * m_charWidth), m_charWidth, m_charHeight );
+				e.Graphics.FillRectangle( brush, (float)(position.X * m_charWidth), (float)(position.Y * m_charHeight), m_charWidth, m_charHeight );
 			}
 		}
 
