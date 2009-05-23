@@ -230,11 +230,12 @@ namespace TerminalCore
 					ResetHistoryNavigation();
 					break;
 			}
-		}
+		}																																												
 
 		private void MoveToBegining()
 		{
-			m_offsetInText = -m_currentLine.LastUserSpan.Text.Length;
+			var span = m_currentLine.CachedLines[ m_currentLine.CachedLines.Count - 1 ].LastUserSpan;
+			m_offsetInText = -span.Text.Length;
 		}
 
 		private void MoveToEnd()
@@ -249,7 +250,8 @@ namespace TerminalCore
 
 		private void MoveLeft()
 		{
-			m_offsetInText = Math.Max( -m_currentLine.LastUserSpan.Text.Length, m_offsetInText - 1 );
+			var span = m_currentLine.CachedLines[ m_currentLine.CachedLines.Count - 1 ].LastUserSpan;
+			m_offsetInText = Math.Max( -span.Text.Length, m_offsetInText - 1 );
 		}
 
 		private void MoveRight()

@@ -46,26 +46,6 @@ namespace TerminalCore.Model
 			return false;
 		}
 
-		public Span LastUserSpan
-		{
-			get 
-			{
-				//There must be a prompt
-				if( Spans.Count == 0 )
-				{
-					throw new Exception( "Line is missing a prompt" );
-				}
-
-				//Add an input span if there is not one
-				if( Spans.Count == 1 )
-				{
-					Spans.Add( new Span( "" ) );
-				}
-
-				return Spans[ Spans.Count - 1 ];
-			}
-		}
-
 		public int CachedWrapAt{ get; set; }
 		public IList<CachedLine> CachedLines { get; set; }
 	}
