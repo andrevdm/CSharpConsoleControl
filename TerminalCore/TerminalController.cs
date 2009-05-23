@@ -102,7 +102,7 @@ namespace TerminalCore
 
 			UpdateLineCache( m_currentLine );
 
-			foreach( var cachedLine in m_currentLine.CachedLines )
+			foreach( var cachedLine in m_currentLine.CachedLines.Reverse() )
 			{
 				if( rowsReturned >= rowsOnPage )
 				{
@@ -123,7 +123,7 @@ namespace TerminalCore
 					Debug.Assert( line.CachedLines != null );
 				}
 
-				foreach( var cachedLine in line.CachedLines )
+				foreach( var cachedLine in line.CachedLines.Reverse() )
 				{
 					if( rowsReturned >= rowsOnPage )
 					{
@@ -136,6 +136,7 @@ namespace TerminalCore
 
 				current = current.Next;
 			}
+
 		}
 
 		public void CharTyped( char character )
