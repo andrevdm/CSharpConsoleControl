@@ -17,7 +17,6 @@ namespace TerminalCore
 		private readonly LinkedList<UserLine> m_lines = new LinkedList<UserLine>();
 		private UserLine m_currentLine;
 		private LinkedListNode<UserLine> m_historyItem;
-		private int m_inputColumn;
 		private int m_maxHistoryItems = 300;
 
 		public TerminalController( ITerminalView view, SizeD charSize, int charsPerLine, Span prompt, Span promptWrap, Span promptOutput )
@@ -89,9 +88,12 @@ namespace TerminalCore
 			ClearCurrentLine();
 		}
 
-		public IEnumerable<Line> GetLinesToDrawOnCurrentPage( int rowsOnPage )
+		public DrawingInfo GetCurrentPageDrawingInfo( int rowsOnPage )
 		{
-			return GetLinesToDrawOnCurrentPageReverse( rowsOnPage ).Reverse();
+			var lines = new List<Line>( GetLinesToDrawOnCurrentPageReverse( rowsOnPage ).Reverse() );
+			var cursorPos = new CursorPosition( 0, 0 );
+
+			return new DrawingInfo( lines, cursorPos );
 		}
 
 		private IEnumerable<Line> GetLinesToDrawOnCurrentPageReverse( int rowsOnPage )
@@ -136,7 +138,6 @@ namespace TerminalCore
 
 				current = current.Next;
 			}
-
 		}
 
 		public void CharTyped( char character )
@@ -225,7 +226,6 @@ namespace TerminalCore
 
 		private void ResetColumn()
 		{
-			m_inputColumn = 0;
 		}
 
 		private void MoveLeft()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -142,16 +143,24 @@ namespace WpfTerminalControl
 
 		private void Draw( DrawingContext ctx )
 		{
-			DrawLines( ctx );
-		}
-
-		private void DrawLines( DrawingContext ctx )
-		{
 			ctx.DrawRectangle( Background, null, new Rect( 0, 0, m_terminalCanvas.ActualWidth, m_terminalCanvas.ActualHeight ) );
 
+			var info = m_terminal.GetCurrentPageDrawingInfo( (int)(m_terminalCanvas.ActualHeight / m_charHeight) );
+
+			DrawCursor( ctx, info.CursorPosition );
+			DrawLines( ctx, info.Lines );
+		}
+
+		private void DrawCursor( DrawingContext ctx, CursorPosition position )
+		{
+			ctx.DrawRectangle( Brushes.Yellow, null, new Rect( position.X * m_charWidth, position.Y * m_charWidth, m_charWidth, m_charHeight ) );
+		}
+
+		private void DrawLines( DrawingContext ctx, IEnumerable<Line> lines )
+		{
 			double top = 0;
 
-			foreach( Line line in m_terminal.GetLinesToDrawOnCurrentPage( (int)(m_terminalCanvas.ActualHeight / m_charHeight) ) )
+			foreach( Line line in lines )
 			{
 				double left = 0;
 				double maxHeight = 0;

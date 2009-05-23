@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Windows.Forms;
@@ -103,9 +104,25 @@ namespace WinFormsTerminalControl
 
 		private void TerminalControl_Paint( object sender, PaintEventArgs e )
 		{
+			var info = m_terminal.GetCurrentPageDrawingInfo( (int)(Height / m_charHeight) );
+
+			DrawCursor( e, info.CursorPosition );
+			DrawLines( e, info.Lines );
+		}
+
+		private void DrawCursor( PaintEventArgs e, CursorPosition position )
+		{
+			using( var brush = new SolidBrush(Color.Yellow) )
+			{
+				e.Graphics.FillRectangle( brush, (float)(position.X * m_charWidth), (float)(position.Y * m_charWidth), m_charWidth, m_charHeight );
+			}
+		}
+
+		private void DrawLines( PaintEventArgs e, IEnumerable<Line> lines )
+		{
 			float top = 0;
 
-			foreach( var line in m_terminal.GetLinesToDrawOnCurrentPage( (int)(Height / m_charHeight) ) )
+			foreach( var line in lines )
 			{
 				float left = 0;
 				float maxHeight = 0;
