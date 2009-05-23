@@ -28,6 +28,7 @@ namespace WpfTerminalControl
 			InitializeComponent();
 
 			IsTabStop = true;
+			SelectionColour = Color.FromArgb( 255, 89, 119, 77 );
 
 			m_culture = CultureInfo.GetCultureInfo( "en-us" );
 			m_typeface = new Typeface( "Courier New" );
@@ -153,7 +154,10 @@ namespace WpfTerminalControl
 
 		private void DrawCursor( DrawingContext ctx, CursorPosition position )
 		{
-			ctx.DrawRectangle( Brushes.Yellow, null, new Rect( position.X * m_charWidth, position.Y * m_charHeight, m_charWidth, m_charHeight ) );
+			ctx.DrawRectangle( 
+				new SolidColorBrush( SelectionColour ), 
+				null, 
+				new Rect( position.X * m_charWidth, position.Y * m_charHeight, m_charWidth, m_charHeight ) );
 		}
 
 		private void DrawLines( DrawingContext ctx, IEnumerable<Line> lines )
@@ -202,6 +206,7 @@ namespace WpfTerminalControl
 			return Color.FromArgb( spanColour.Alpha, spanColour.Red, spanColour.Green, spanColour.Blue );
 		}
 
+		public Color SelectionColour { get; set; }
 		public TerminalController Terminal { get { return m_terminal; } }
 	}
 }

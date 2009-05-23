@@ -18,6 +18,7 @@ namespace TerminalCore
 		private UserLine m_currentLine;
 		private LinkedListNode<UserLine> m_historyItem;
 		private int m_maxHistoryItems = 300;
+		private int m_offsetInText;
 
 		public TerminalController( ITerminalView view, SizeD charSize, int charsPerLine, Span prompt, Span promptWrap, Span promptOutput )
 			: this( view, charSize, charsPerLine, prompt, promptWrap, promptOutput, Colours.White, Colours.Black )
@@ -92,12 +93,26 @@ namespace TerminalCore
 		{
 			var lines = new List<Line>( GetLinesToDrawOnCurrentPageReverse( rowsOnPage ).Reverse() );
 
-			int y = lines.Count - 1;
-			int x = lines.Count > 0 ? lines[ y ].ToString( true ).Length : 0;
-
-			var cursorPos = new CursorPosition( x, y );
+			CursorPosition cursorPos = GetCursorPosition( lines );
 
 			return new DrawingInfo( lines, cursorPos );		 
+		}
+
+		private CursorPosition GetCursorPosition( IList<Line> lines )
+		{
+			int x;
+			int y = lines.Count - 1;
+
+			if( lines.Count > 0 )
+			{
+				x = lines[ y ].ToString( true ).Length + m_offsetInText;
+			}
+			else
+			{
+				x = 0;
+			}
+
+			return new CursorPosition( x, y );
 		}
 
 		private IEnumerable<Line> GetLinesToDrawOnCurrentPageReverse( int rowsOnPage )
@@ -164,7 +179,6 @@ namespace TerminalCore
 					break;
 
 				default:
-					ResetColumn();
 					AppendCharToCurrentSpan( character );
 					break;
 			}
@@ -220,26 +234,27 @@ namespace TerminalCore
 
 		private void MoveToBegining()
 		{
-			//TODO
+			m_offsetInText = -m_currentLine.LastUserSpan.Text.Length;
 		}
 
 		private void MoveToEnd()
 		{
-			//TODO
+			m_offsetInText = 0;
 		}
 
 		private void ResetColumn()
 		{
+			m_offsetInText = 0;
 		}
 
 		private void MoveLeft()
 		{
-			//TODO m_inputColumn++;
+			m_offsetInText = Math.Max( -m_currentLine.LastUserSpan.Text.Length, m_offsetInText - 1 );
 		}
 
 		private void MoveRight()
 		{
-			//TODO m_inputColumn--;
+			m_offsetInText = Math.Min( 0, m_offsetInText + 1 );
 		}
 
 		private void ResetHistoryNavigation()
@@ -346,9 +361,19 @@ namespace TerminalCore
 
 		private void AppendCharToCurrentSpan( char c )
 		{
-			if( !char.IsControl( c ) /*char.IsLetterOrDigit( c ) || char.IsWhiteSpace( c )*/ )
+			if( !char.IsControl( c ) )
 			{
-				m_currentLine.LastUserSpan.Text += c;
+				if( m_offsetInText == 0 )
+				{
+					m_currentLine.LastUserSpan.Text += c;
+				}
+				else
+				{
+					var txt = m_currentLine.LastUserSpan.Text;
+					var len = txt.Length;
+					m_currentLine.LastUserSpan.Text = txt.Substring( 0, len + m_offsetInText ) + c + txt.Substring( len + m_offsetInText );
+				}
+
 				m_currentLine.CachedLines = null;
 			}
 			else
@@ -363,7 +388,20 @@ namespace TerminalCore
 
 			if( text.Length > 0 )
 			{
-				text = text.Substring( 0, text.Length - 1 );
+				if( m_offsetInText == 0 )
+				{
+					text = text.Substring( 0, text.Length - 1 );
+				}
+				else
+				{
+					int offset = text.Length + m_offsetInText;
+
+					if( offset > 0 )
+					{
+						text = text.Substring( 0, offset - 1 ) + text.Substring( offset );
+					}
+				}
+
 				m_currentLine.LastUserSpan.Text = text;
 			}
 		}

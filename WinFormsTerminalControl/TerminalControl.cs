@@ -19,6 +19,7 @@ namespace WinFormsTerminalControl
 		public TerminalControl()
 		{
 			InitializeComponent();
+			SelectionColour = Color.FromArgb( 89, 119, 77 );
 
 			SetStyle( ControlStyles.DoubleBuffer, true );
 			SetStyle( ControlStyles.UserPaint, true );
@@ -110,7 +111,7 @@ namespace WinFormsTerminalControl
 
 		private void DrawCursor( PaintEventArgs e, CursorPosition position )
 		{
-			using( var brush = new SolidBrush( Color.Yellow ) )
+			using( var brush = new SolidBrush( SelectionColour ) )
 			{
 				e.Graphics.FillRectangle( brush, (float)(position.X * m_charWidth), (float)(position.Y * m_charHeight), m_charWidth, m_charHeight );
 			}
@@ -194,6 +195,7 @@ namespace WinFormsTerminalControl
 			return new SizeF( fontSizeDouble.Width - fontSizeSingle.Width + 1.0f, fontSizeSingle.Height );
 		}
 
-		public TerminalController Controller { get { return m_terminal; } }
+		public Color SelectionColour { get; set; }
+		public TerminalController Terminal { get { return m_terminal; } }
 	}
 }

@@ -31,8 +31,8 @@ namespace WinFormsTestApp
 			m_boo = new InteractiveInterpreter2();
 			m_boo.RememberLastValue = true;
 
-			m_terminal.Controller.LineEntered += Terminal_LineEntered;
-			m_terminal.Controller.ControlCharEntered += Terminal_ControlCharEntered;
+			m_terminal.Terminal.LineEntered += Terminal_LineEntered;
+			m_terminal.Terminal.ControlCharEntered += Terminal_ControlCharEntered;
 		}
 
 		private void Terminal_ControlCharEntered( object sender, CharEventArgs e )
@@ -54,17 +54,17 @@ namespace WinFormsTestApp
 				{
 					if( m_boo.LastValue != null )
 					{
-						m_terminal.Controller.WriteOutput( m_boo.LastValue.ToString(), Colours.Green );
+						m_terminal.Terminal.WriteOutput( m_boo.LastValue.ToString(), Colours.Green );
 					}
 				}
 				else
 				{
-					m_terminal.Controller.WriteOutput( ctx.Errors[ 0 ].Message, Colours.Red );
+					m_terminal.Terminal.WriteOutput( ctx.Errors[ 0 ].Message, Colours.Red );
 				}
 			}
 			catch( Exception ex )
 			{
-				m_terminal.Controller.WriteOutput( ex.Message, Colours.Red );
+				m_terminal.Terminal.WriteOutput( ex.Message, Colours.Red );
 			}
 		}
 	}
