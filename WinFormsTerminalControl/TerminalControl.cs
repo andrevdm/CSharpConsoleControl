@@ -149,7 +149,7 @@ namespace WinFormsTerminalControl
 							top );
 					}
 
-					left += fontSize.Width;
+					left += span.Text.Length * m_charWidth;
 					maxHeight = fontSize.Height;
 				}
 

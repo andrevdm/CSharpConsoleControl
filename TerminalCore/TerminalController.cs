@@ -91,9 +91,13 @@ namespace TerminalCore
 		public DrawingInfo GetCurrentPageDrawingInfo( int rowsOnPage )
 		{
 			var lines = new List<Line>( GetLinesToDrawOnCurrentPageReverse( rowsOnPage ).Reverse() );
-			var cursorPos = new CursorPosition( 0, 0 );
 
-			return new DrawingInfo( lines, cursorPos );
+			int y = lines.Count - 1;
+			int x = lines.Count > 0 ? lines[ y ].ToString( true ).Length : 0;
+
+			var cursorPos = new CursorPosition( x, y );
+
+			return new DrawingInfo( lines, cursorPos );		 
 		}
 
 		private IEnumerable<Line> GetLinesToDrawOnCurrentPageReverse( int rowsOnPage )

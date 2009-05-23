@@ -11,13 +11,13 @@ namespace TerminalCore.Model
 			Spans = new List<Span>();
 		}
 
-		public override string ToString()
+		public string ToString( bool includePrompt )
 		{
 			var str = new StringBuilder();
 
 			for( int i = 0; i < Spans.Count; ++i )
 			{
-				if( (i == 0) && Spans[ i ].IsPrompt )
+				if( (!includePrompt) && (i == 0) && Spans[ i ].IsPrompt )
 				{
 					continue;
 				}
@@ -26,6 +26,11 @@ namespace TerminalCore.Model
 			}
 
 			return str.ToString();
+		}
+
+		public override string ToString()
+		{
+			return ToString( false );
 		}
 		
 		public IList<Span> Spans { get; private set; }
