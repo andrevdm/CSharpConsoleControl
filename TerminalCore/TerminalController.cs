@@ -223,6 +223,7 @@ namespace TerminalCore
 					break;
 
 				case TerminalKey.Delete:
+					DeletePressed();
 					ResetHistoryNavigation();
 					break;
 
@@ -230,7 +231,7 @@ namespace TerminalCore
 					ResetHistoryNavigation();
 					break;
 			}
-		}																																												
+		}
 
 		private void MoveToBegining()
 		{
@@ -381,6 +382,32 @@ namespace TerminalCore
 			else
 			{
 				ControlCharEntered( this, new CharEventArgs( c ) );
+			}
+		}
+
+		private void DeletePressed()
+		{
+			string text = m_currentLine.LastUserSpan.Text;
+
+			if( text.Length > 0 )
+			{
+				int offset = text.Length + m_offsetInText;
+
+				if( offset == 0 )
+				{
+					text = text.Substring( 1 );
+					m_offsetInText++;
+				}
+				else
+				{
+					if( offset < text.Length )
+					{
+						text = text.Substring( 0, offset ) + text.Substring( offset + 1 );
+						m_offsetInText++;
+					}
+				}
+
+				m_currentLine.LastUserSpan.Text = text;
 			}
 		}
 
