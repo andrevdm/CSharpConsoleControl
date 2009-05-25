@@ -5,7 +5,7 @@ namespace TerminalCore.Model
 {
 	public class DrawingInfo
 	{
-		public DrawingInfo( IEnumerable<Line> lines, CursorPosition cursorPosition )
+		public DrawingInfo( IEnumerable<CachedLine> lines, CursorPosition cursorPosition )
 		{
 			#region param checks
 			if( lines == null )
@@ -23,7 +23,7 @@ namespace TerminalCore.Model
 			CursorPosition = cursorPosition;
 		}
 
-		public IEnumerable<Line> Lines { get; private set; }
+		public IEnumerable<CachedLine> Lines { get; private set; }
 		public CursorPosition CursorPosition { get; private set; }
 	}
 }

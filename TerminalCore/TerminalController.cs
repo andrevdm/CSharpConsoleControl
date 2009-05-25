@@ -91,31 +91,48 @@ namespace TerminalCore
 
 		public DrawingInfo GetCurrentPageDrawingInfo( int rowsOnPage )
 		{
-			var lines = new List<Line>( GetLinesToDrawOnCurrentPageReverse( rowsOnPage ).Reverse() );
+			var lines = new List<CachedLine>( GetLinesToDrawOnCurrentPageReverse( rowsOnPage ).Reverse() );
 
 			CursorPosition cursorPos = GetCursorPosition( lines );
 
-			return new DrawingInfo( lines, cursorPos );		 
+			return new DrawingInfo( lines, cursorPos );
 		}
 
-		private CursorPosition GetCursorPosition( IList<Line> lines )
+		private CursorPosition GetCursorPosition( IList<CachedLine> lines )
 		{
-			int x;
+			int x = Prompt.Text.Length;
 			int y = lines.Count - 1;
 
 			if( lines.Count > 0 )
 			{
-				x = lines[ y ].ToString( true ).Length + m_offsetInText;
-			}
-			else
-			{
-				x = 0;
+				int offset = -m_offsetInText;
+				var realLine = lines[ y ].RealLine;
+				var realLineLen = lines[ y ].RealLine.ToString().Length;
+				int charsPerLine = realLine.CachedLines[ 0 ].ToString( false ).Length;
+
+				if( charsPerLine > 0 )
+				{
+					if( m_offsetInText != 0 )
+					{
+						y = lines.Count - realLine.CachedLines.Count;
+						y += ((realLineLen - offset) / charsPerLine);
+						//y = Math.Min( y, realLine.CachedLines.Count - 1 );
+
+						x = ((realLineLen - offset) % charsPerLine);
+					}
+					else
+					{
+						x = lines[ lines.Count - 1 ].ToString().Length;
+					}
+
+					x += (y > 0) ? PromptWrap.Text.Length : Prompt.Text.Length;
+				}
 			}
 
 			return new CursorPosition( x, y );
 		}
 
-		private IEnumerable<Line> GetLinesToDrawOnCurrentPageReverse( int rowsOnPage )
+		private IEnumerable<CachedLine> GetLinesToDrawOnCurrentPageReverse( int rowsOnPage )
 		{
 			int rowsReturned = 0;
 
@@ -235,7 +252,7 @@ namespace TerminalCore
 
 		private void MoveToBegining()
 		{
-			var span = m_currentLine.CachedLines[ m_currentLine.CachedLines.Count - 1 ].LastUserSpan;
+			var span = m_currentLine.LastUserSpan;
 			m_offsetInText = -span.Text.Length;
 		}
 
@@ -251,7 +268,7 @@ namespace TerminalCore
 
 		private void MoveLeft()
 		{
-			var span = m_currentLine.CachedLines[ m_currentLine.CachedLines.Count - 1 ].LastUserSpan;
+			var span = m_currentLine.LastUserSpan;
 			m_offsetInText = Math.Max( -span.Text.Length, m_offsetInText - 1 );
 		}
 
@@ -295,8 +312,8 @@ namespace TerminalCore
 
 		private void NavigationUpInHistory()
 		{
-			LinkedListNode<UserLine> at = (m_historyItem == null) ? 
-				m_lines.First : 
+			LinkedListNode<UserLine> at = (m_historyItem == null) ?
+				m_lines.First :
 				m_historyItem.Next;
 
 			if( at == null )
@@ -460,7 +477,7 @@ namespace TerminalCore
 			{
 				if( cachedLine == null )
 				{
-					cachedLine = new CachedLine();
+					cachedLine = new CachedLine( line );
 					line.CachedLines.Add( cachedLine );
 				}
 
@@ -484,7 +501,7 @@ namespace TerminalCore
 
 						if( spanText.Length > 0 )
 						{
-							cachedLine = new CachedLine();
+							cachedLine = new CachedLine( line );
 							line.CachedLines.Add( cachedLine );
 
 							cachedLine.Spans.Add( PromptWrap );

@@ -117,7 +117,7 @@ namespace WinFormsTerminalControl
 			}
 		}
 
-		private void DrawLines( PaintEventArgs e, IEnumerable<Line> lines )
+		private void DrawLines( PaintEventArgs e, IEnumerable<CachedLine> lines )
 		{
 			float top = 0;
 

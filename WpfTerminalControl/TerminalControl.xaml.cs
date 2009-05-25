@@ -160,7 +160,7 @@ namespace WpfTerminalControl
 				new Rect( position.X * m_charWidth, position.Y * m_charHeight, m_charWidth, m_charHeight ) );
 		}
 
-		private void DrawLines( DrawingContext ctx, IEnumerable<Line> lines )
+		private void DrawLines( DrawingContext ctx, IEnumerable<CachedLine> lines )
 		{
 			double top = 0;
 
