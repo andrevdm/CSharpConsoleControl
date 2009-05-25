@@ -116,7 +116,6 @@ namespace TerminalCore
 					{
 						y = lines.Count - realLine.CachedLines.Count;
 						y += ((realLineLen - offset) / charsPerLine);
-						//y = Math.Min( y, realLine.CachedLines.Count - 1 );
 
 						x = ((realLineLen - offset) % charsPerLine);
 					}
