@@ -45,7 +45,8 @@ namespace WpfTerminalControl
 			var prompt = new Span( "test> ", Colours.Blue );
 			var promptWrap = new Span( "      ", Colours.Blue );
 			var promptOutput = new Span( " ", Colours.Blue );
-			m_terminal = new TerminalController( this, new SizeD( m_charWidth, m_charHeight ), int.MaxValue, prompt, promptWrap, promptOutput );
+         var promptOutputWrap = new Span( " ", Colours.Blue );
+         m_terminal = new TerminalController( this, new SizeD( m_charWidth, m_charHeight ), int.MaxValue, prompt, promptWrap, promptOutput, promptOutputWrap );
 
 			Background = new SolidColorBrush( ColorFromSpanColour( m_terminal.DefaultBackgroundColour ) );
 			Foreground = new SolidColorBrush( ColorFromSpanColour( m_terminal.DefaultForegroundColour ) );

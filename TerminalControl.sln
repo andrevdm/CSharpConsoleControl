@@ -17,7 +17,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GUI", "GUI", "{9B681F70-8C8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerminalCore", "TerminalCore\TerminalCore.csproj", "{48814A81-17B8-4AD6-8DE9-49B1E0E154E8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8F58192B-1EDE-4D6B-AFC2-E153305D8E76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerminalCoreTests", "TerminalCoreTests\TerminalCoreTests.csproj", "{799D6C85-08BD-4383-ABC3-34664D81C6F7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F67CC31A-BFCB-4361-98EC-93FCC2A9761C}"
+	ProjectSection(SolutionItems) = preProject
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		TerminalControl.vsmdi = TerminalControl.vsmdi
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = TerminalControl.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -43,15 +56,20 @@ Global
 		{48814A81-17B8-4AD6-8DE9-49B1E0E154E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48814A81-17B8-4AD6-8DE9-49B1E0E154E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48814A81-17B8-4AD6-8DE9-49B1E0E154E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{799D6C85-08BD-4383-ABC3-34664D81C6F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{799D6C85-08BD-4383-ABC3-34664D81C6F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{799D6C85-08BD-4383-ABC3-34664D81C6F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{799D6C85-08BD-4383-ABC3-34664D81C6F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{48814A81-17B8-4AD6-8DE9-49B1E0E154E8} = {0B790493-7C31-41AC-BD2E-D1F8D8155F1A}
 		{4D5BA2B7-7F3C-495C-AD36-5FFF95AEA9B4} = {9B681F70-8C8C-4E30-9BD1-B4A216C0F875}
 		{B6E65293-2F0A-49F8-9C6C-712DE225CD77} = {9B681F70-8C8C-4E30-9BD1-B4A216C0F875}
 		{ABD9AF89-D27C-475C-961C-08245021283E} = {280C1799-A303-48F8-BBD6-89209FE14B2E}
 		{4CAF7BA1-4C10-46E8-BF79-9B7867CF16E5} = {280C1799-A303-48F8-BBD6-89209FE14B2E}
+		{48814A81-17B8-4AD6-8DE9-49B1E0E154E8} = {0B790493-7C31-41AC-BD2E-D1F8D8155F1A}
+		{799D6C85-08BD-4383-ABC3-34664D81C6F7} = {8F58192B-1EDE-4D6B-AFC2-E153305D8E76}
 	EndGlobalSection
 EndGlobal

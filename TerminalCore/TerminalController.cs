@@ -20,8 +20,8 @@ namespace TerminalCore
 		private int m_maxHistoryItems = 300;
 		private int m_offsetInText;
 
-		public TerminalController( ITerminalView view, SizeD charSize, int charsPerLine, Span prompt, Span promptWrap, Span promptOutput )
-			: this( view, charSize, charsPerLine, prompt, promptWrap, promptOutput, Colours.White, Colours.Black )
+		public TerminalController( ITerminalView view, SizeD charSize, int charsPerLine, Span prompt, Span promptWrap, Span promptOutput, Span promptOutputWrap )
+         : this( view, charSize, charsPerLine, prompt, promptWrap, promptOutput, promptOutputWrap, Colours.White, Colours.Black )
 		{
 		}
 
@@ -32,6 +32,7 @@ namespace TerminalCore
 			Span prompt,
 			Span promptWrap,
 			Span promptOutput,
+         Span promptOutputWrap,
 			Colour defaultForegroundColour,
 			Colour defaultBackgroundColour )
 		{
@@ -79,12 +80,14 @@ namespace TerminalCore
 			CharsPerLine = charsPerLine;
 			PromptWrap = promptWrap;
 			PromptOutput = promptOutput;
+         PromptOutputWrap = promptOutputWrap;
 			DefaultBackgroundColour = defaultBackgroundColour;
 			DefaultForegroundColour = defaultForegroundColour;
 
 			Prompt.IsPrompt = true;
 			promptWrap.IsPrompt = true;
 			promptOutput.IsPrompt = true;
+         promptOutputWrap.IsPrompt = true;
 
 			ClearCurrentLine();
 		}
@@ -503,8 +506,8 @@ namespace TerminalCore
 							cachedLine = new CachedLine( line );
 							line.CachedLines.Add( cachedLine );
 
-							cachedLine.Spans.Add( PromptWrap );
-							len += PromptWrap.Text.Length;
+							cachedLine.Spans.Add( line.IsOutput ? PromptOutputWrap : PromptWrap );
+							len += line.IsOutput ? PromptOutputWrap.Text.Length : PromptWrap.Text.Length;
 						}
 					}
 				}
@@ -534,7 +537,9 @@ namespace TerminalCore
 		private Span Prompt { get; set; }
 		private Span PromptWrap { get; set; }
 		private Span PromptOutput { get; set; }
-		public Colour DefaultForegroundColour { get; private set; }
+      private Span PromptOutputWrap { get; set; }
+      public Colour DefaultForegroundColour { get; private set; }
 		public Colour DefaultBackgroundColour { get; private set; }
+
 	}
 }
