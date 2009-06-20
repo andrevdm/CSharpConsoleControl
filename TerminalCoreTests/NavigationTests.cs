@@ -124,21 +124,21 @@ namespace TerminalCoreTests
          terminal.LineEntered += ( s, lea ) => terminal.WriteOutput( "out: " + lea.Line );
          terminal.CharsPerLine = m_prompt.Length + 5;
 
-         "abcdefghijk\r".ForEach( c => terminal.CharTyped( c ) );
-         //TODO terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
+         "abcdefghijk".ForEach( c => terminal.CharTyped( c ) );
+         terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
+         terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
+         terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
+         terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
+         terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
 
          DrawingInfo info = terminal.GetCurrentPageDrawingInfo( 50 );
 
          var lines = CoreTestHelpers.GetLinesAsText( info, true );
 
-         Assert.AreEqual( 7, lines.Count, "Incorrect number of lines" );
+         Assert.AreEqual( 3, lines.Count, "Incorrect number of lines" );
          Assert.AreEqual( m_prompt + "abcde", lines[ 0 ], "Incorrect input line 0" );
-         Assert.AreEqual( m_promptWrap + "fghi", lines[ 1 ], "Incorrect input line 1" );
+         Assert.AreEqual( m_promptWrap + "f|ghi", lines[ 1 ], "Incorrect input line 1" );
          Assert.AreEqual( m_promptWrap + "jk", lines[ 2 ], "Incorrect input line 2" );
-         Assert.AreEqual( m_promptOutput + "out: ab", lines[ 3 ], "Incorrect output line 3" );
-         Assert.AreEqual( m_promptOutputWrap + "cdefgh", lines[ 4 ], "Incorrect output line 4" );
-         Assert.AreEqual( m_promptOutputWrap + "ijk", lines[ 5 ], "Incorrect output line 5" );
-         Assert.AreEqual( m_prompt, lines[ 6 ], "Incorrect input line 6" );
       }
 
       [TestMethod]
@@ -150,21 +150,27 @@ namespace TerminalCoreTests
          terminal.LineEntered += ( s, lea ) => terminal.WriteOutput( "out: " + lea.Line );
          terminal.CharsPerLine = m_prompt.Length + 5;
 
-         "abcdefghijk\r".ForEach( c => terminal.CharTyped( c ) );
-         //TODO terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
+         "abcdefghijk".ForEach( c => terminal.CharTyped( c ) );
+         terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
+         terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
+         terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
+         terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
+         terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
+         terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
+         terminal.ControlKeyPressed( TerminalKey.Left, TerminalKeyModifiers.None );
+
+         terminal.ControlKeyPressed( TerminalKey.Right, TerminalKeyModifiers.None );
+         terminal.ControlKeyPressed( TerminalKey.Right, TerminalKeyModifiers.None );
+         terminal.ControlKeyPressed( TerminalKey.Right, TerminalKeyModifiers.None );
 
          DrawingInfo info = terminal.GetCurrentPageDrawingInfo( 50 );
 
          var lines = CoreTestHelpers.GetLinesAsText( info, true );
 
-         Assert.AreEqual( 7, lines.Count, "Incorrect number of lines" );
+         Assert.AreEqual( 3, lines.Count, "Incorrect number of lines" );
          Assert.AreEqual( m_prompt + "abcde", lines[ 0 ], "Incorrect input line 0" );
-         Assert.AreEqual( m_promptWrap + "fghi", lines[ 1 ], "Incorrect input line 1" );
+         Assert.AreEqual( m_promptWrap + "fg|hi", lines[ 1 ], "Incorrect input line 1" );
          Assert.AreEqual( m_promptWrap + "jk", lines[ 2 ], "Incorrect input line 2" );
-         Assert.AreEqual( m_promptOutput + "out: ab", lines[ 3 ], "Incorrect output line 3" );
-         Assert.AreEqual( m_promptOutputWrap + "cdefgh", lines[ 4 ], "Incorrect output line 4" );
-         Assert.AreEqual( m_promptOutputWrap + "ijk", lines[ 5 ], "Incorrect output line 5" );
-         Assert.AreEqual( m_prompt, lines[ 6 ], "Incorrect input line 6" );
       }
 
       [TestMethod]

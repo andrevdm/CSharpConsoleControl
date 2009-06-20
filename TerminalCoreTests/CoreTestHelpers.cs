@@ -30,9 +30,9 @@ namespace TerminalCoreTests
 
          if( drawCursor )
          {
-            string lastLine = lines[ lines.Count - 1 ];
-            lastLine = lastLine.Substring( 0, (int)info.CursorPosition.X ) + "|" + lastLine.Substring( (int)info.CursorPosition.X );
-            lines[ lines.Count - 1 ] = lastLine;
+            string line = lines[ (int)info.CursorPosition.Y ];
+            line = line.Substring( 0, (int)info.CursorPosition.X ) + "|" + line.Substring( (int)info.CursorPosition.X );
+            lines[ (int)info.CursorPosition.Y ] = line;
          }
 
          return lines;
