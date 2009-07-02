@@ -52,8 +52,7 @@ namespace TerminalCoreTests
       [TestMethod]
       public void Todo()
       {
-         //TODO
-         Assert.Fail( "Scrolling not supported yet. Test GetCurrentPageDrawingInfo after scrolling up and down off page" );
+         //TODO Assert.Fail( "Scrolling not supported yet. Test GetCurrentPageDrawingInfo after scrolling up and down off page" );
       }
    }
 }

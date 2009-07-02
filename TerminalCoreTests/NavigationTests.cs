@@ -172,12 +172,5 @@ namespace TerminalCoreTests
          Assert.AreEqual( m_promptWrap + "fg|hi", lines[ 1 ], "Incorrect input line 1" );
          Assert.AreEqual( m_promptWrap + "jk", lines[ 2 ], "Incorrect input line 2" );
       }
-
-      [TestMethod]
-      public void Todo()
-      {
-         //TODO
-         Assert.Fail( "Test navigation" );
-      }
    }
 }
