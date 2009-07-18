@@ -163,7 +163,7 @@ namespace TerminalCore
 					Debug.Assert( line.CachedLines != null );
 				}
 
-				foreach( var cachedLine in line.CachedLines.Reverse() )
+				foreach( var cachedLine in line.CachedLines.Reverse() ) //TODO this is slow, do do a reverse
 				{
 					if( rowsReturned >= rowsOnPage )
 					{

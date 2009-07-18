@@ -31,6 +31,17 @@ namespace WpfTestApp
 
 			m_boo = new InteractiveInterpreter2();
 			m_boo.RememberLastValue = true;
+
+         for( int i = 0; i < 300000; ++i )
+         {
+            Terminal.CharTyped( 'a' );
+            Terminal.GetCurrentPageDrawingInfo( 50 );
+
+            if( (i % 150) == 0 )
+            {
+               Terminal.CharTyped( '\r' );
+            }
+         }
 		}
 
 
