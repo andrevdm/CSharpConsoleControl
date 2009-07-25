@@ -1,8 +1,6 @@
 Documentation/backup*/
 web.config
-HexCore_CF/out*/
-MiscUtil_CF/out*/
-CFCommon/out*/
+TerminalCore_CF/out*/
 
 #ignore thumbnails created by windows
 Thumbs.db#Ignore files build by Visual Studio
