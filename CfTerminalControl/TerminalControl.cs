@@ -11,9 +11,8 @@ using TerminalCore.Model;
 
 namespace CfTerminalControl
 {
-	public partial class TerminalControl : UserControl, ITerminalView
+	public partial class TerminalControl : CtrlDoubleBuffer, ITerminalView
 	{
-      //private CtrlDoubleBuffer m_dblBuffer;
 		private TerminalController m_terminal;
 		private float m_charWidth;
 		private float m_charHeight;
@@ -23,16 +22,7 @@ namespace CfTerminalControl
 			InitializeComponent();
 			SelectionColour = Color.FromArgb( 89, 119, 77 );
 
-         //m_dblBuffer = new CtrlDoubleBuffer();
-         //m_dblBuffer.EnableDoubleBuffering = true;
-         //m_dblBuffer.Dock = DockStyle.Fill;
-         //m_dblBuffer.BackColor = System.Drawing.Color.Black;
-         //m_dblBuffer.Font = new System.Drawing.Font( "Courier New", 9F, System.Drawing.FontStyle.Regular );
-         //m_dblBuffer.ForeColor = System.Drawing.Color.White;
-         //m_dblBuffer.Name = "TerminalControl";
-         //m_dblBuffer.Paint += new System.Windows.Forms.PaintEventHandler( this.TerminalControl_Paint );
-         //m_dblBuffer.Resize += new System.EventHandler( this.TerminalControl_Resize );
-         //Controls.Add( m_dblBuffer );
+         EnableDoubleBuffering = true;
 
          MeasureFont();
 
@@ -108,7 +98,7 @@ namespace CfTerminalControl
 			Invalidate();
 		}
 
-		private void TerminalControl_Paint( object sender, PaintEventArgs e )
+		private void TerminalControl_PaintBuffered( object sender, PaintEventArgs e )
 		{
 			var info = m_terminal.GetCurrentPageDrawingInfo( (int)(Height / m_charHeight) );
 
