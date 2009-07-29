@@ -33,11 +33,21 @@ namespace WinFormsTestApp
          m_boo = new InteractiveInterpreter2();
          m_boo.RememberLastValue = true;
 
-         m_writer.OnWrite = s => m_terminal.Terminal.WriteOutput( s );
+         m_writer.OnWrite = OnWrite;
          Console.SetOut( m_writer );
 
          m_terminal.Terminal.LineEntered += Terminal_LineEntered;
          m_terminal.Terminal.ControlCharEntered += Terminal_ControlCharEntered;
+      }
+
+      private void OnWrite( string write )
+      {
+         write = write.TrimEnd();
+
+         if( (write != string.Empty) && (write != "\r") && (write != "\r") && (write != "\r\n") )
+         {
+            m_terminal.Terminal.WriteOutput( write, Colours.Green );
+         }
       }
 
       private void Terminal_ControlCharEntered( object sender, CharEventArgs e )

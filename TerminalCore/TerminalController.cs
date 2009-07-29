@@ -355,7 +355,7 @@ namespace TerminalCore
 		public void WriteOutput( string text, Colour foregroundColour, Colour backgroundColour )
 		{
 			ResetHistoryNavigation();
-			var outputLines = Regex.Split( text, "(\r\n)|\r|\n" );
+			var outputLines = Regex.Split( text, @"\r\n|\r|\n" );
 
 			foreach( string outputLine in outputLines )
 			{
@@ -373,6 +373,7 @@ namespace TerminalCore
 			}
 
 			m_currentLine = new UserLine();
+         m_currentLine.Spans.Add( Prompt );
 		}
 
 		private void ClearCurrentLine()
