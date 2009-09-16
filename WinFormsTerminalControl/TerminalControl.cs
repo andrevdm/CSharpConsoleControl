@@ -26,9 +26,11 @@ namespace WinFormsTerminalControl
 			SetStyle( ControlStyles.AllPaintingInWmPaint, true );
 		}
 
-		private void TerminalControl_Load( object sender, EventArgs e )
-		{
-			MeasureFont();
+      protected override void OnLoad( EventArgs e )
+      {
+         base.OnLoad( e );
+			
+         MeasureFont();
 
 			var prompt = new Span( "test> ", Colours.Blue );
 			var promptWrap = new Span( "      ", Colours.Blue );
@@ -102,9 +104,11 @@ namespace WinFormsTerminalControl
 			Invalidate( true );
 		}
 
-		private void TerminalControl_Paint( object sender, PaintEventArgs e )
-		{
-			var info = m_terminal.GetCurrentPageDrawingInfo( (int)(Height / m_charHeight) );
+      protected override void OnPaint( PaintEventArgs e )
+      {
+         base.OnPaint( e );
+			
+         var info = m_terminal.GetCurrentPageDrawingInfo( (int)(Height / m_charHeight) );
 
 			DrawCursor( e, info.CursorPosition );
 			DrawLines( e, info.Lines );
@@ -172,9 +176,11 @@ namespace WinFormsTerminalControl
 			}
 		}
 
-		private void TerminalControl_Resize( object sender, EventArgs e )
-		{
-			if( m_terminal != null )
+      protected override void OnResize( EventArgs e )
+      {
+         base.OnResize( e );
+
+         if( m_terminal != null )
 			{
 				m_terminal.CharsPerLine = (int)(Width / m_charWidth);
 				Invalidate( true );

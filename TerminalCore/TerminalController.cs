@@ -394,7 +394,16 @@ namespace TerminalCore
 				{
 					var txt = m_currentLine.LastUserSpan.Text;
 					var len = txt.Length;
-					m_currentLine.LastUserSpan.Text = txt.Substring( 0, len + m_offsetInText ) + c + txt.Substring( len + m_offsetInText );
+
+               //TODO fix
+               if( len > 0 )
+               {
+                  m_currentLine.LastUserSpan.Text = txt.Substring( 0, len + m_offsetInText ) + c + txt.Substring( len + m_offsetInText );
+               }
+               else
+               {
+                  m_currentLine.LastUserSpan.Text = "";
+               }
 				}
 
 				m_currentLine.CachedLines = null;
