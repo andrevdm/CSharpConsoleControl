@@ -24,11 +24,6 @@ namespace WinFormsTerminalControl
 			SetStyle( ControlStyles.DoubleBuffer, true );
 			SetStyle( ControlStyles.UserPaint, true );
 			SetStyle( ControlStyles.AllPaintingInWmPaint, true );
-		}
-
-      protected override void OnLoad( EventArgs e )
-      {
-         base.OnLoad( e );
 			
          MeasureFont();
 
@@ -37,6 +32,7 @@ namespace WinFormsTerminalControl
 			var promptOutput = new Span( " ", Colours.Blue );
          var promptOutputWrap = new Span( " ", Colours.Blue );
          int charsPerLine = (int)(Width / m_charWidth);
+         
          m_terminal = new TerminalController( this, new SizeD( m_charWidth, m_charHeight ), charsPerLine, prompt, promptWrap, promptOutput, promptOutputWrap );
 		}
 
